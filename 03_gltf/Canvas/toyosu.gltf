@@ -1,0 +1,871 @@
+{
+    "asset": {
+        "version": "2.0",
+        "generator": "Open Asset Import Library (assimp v5.0.5eb040c7)"
+    },
+    "buffers": [
+        {
+            "byteLength": 0,
+            "uri": "result.bin"
+        }
+    ],
+    "nodes": [
+        {
+            "name": "RootNode",
+            "children": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33,
+                34,
+                35,
+                36,
+                37,
+                38,
+                39,
+                40,
+                41,
+                42,
+                43,
+                44,
+                45,
+                46,
+                47,
+                48,
+                49,
+                50,
+                51,
+                52,
+                53,
+                54,
+                55,
+                56,
+                57,
+                58,
+                59,
+                60,
+                61,
+                62,
+                63,
+                64,
+                65,
+                66,
+                67,
+                68,
+                69,
+                70,
+                71,
+                72,
+                73,
+                74,
+                75,
+                76,
+                77,
+                78,
+                79,
+                80,
+                81,
+                82,
+                83,
+                84,
+                85,
+                86,
+                87,
+                88,
+                89,
+                90,
+                91,
+                92,
+                93,
+                94,
+                95,
+                96,
+                97,
+                98,
+                99,
+                100,
+                101,
+                102,
+                103,
+                104,
+                105,
+                106,
+                107,
+                108,
+                109,
+                110,
+                111,
+                112,
+                113,
+                114,
+                115,
+                116,
+                117,
+                118,
+                119,
+                120,
+                121,
+                122,
+                123,
+                124,
+                125,
+                126,
+                127,
+                128,
+                129,
+                130,
+                131,
+                132,
+                133,
+                134,
+                135,
+                136,
+                137,
+                138,
+                139,
+                140,
+                141,
+                142,
+                143,
+                144,
+                145,
+                146,
+                147,
+                148,
+                149,
+                150,
+                151,
+                152,
+                153,
+                154,
+                155,
+                156,
+                157,
+                158,
+                159,
+                160,
+                161,
+                162,
+                163,
+                164,
+                165,
+                166,
+                167,
+                168,
+                169,
+                170,
+                171,
+                172,
+                173,
+                174,
+                175,
+                176,
+                177,
+                178,
+                179,
+                180,
+                181,
+                182,
+                183,
+                184,
+                185,
+                186,
+                187,
+                188,
+                189,
+                190,
+                191,
+                192,
+                193,
+                194,
+                195,
+                196,
+                197,
+                198,
+                199,
+                200,
+                201,
+                202,
+                203,
+                204,
+                205,
+                206,
+                207,
+                208,
+                209,
+                210,
+                211
+            ]
+        },
+        {
+            "name": "BLD_50ed48e1-9aa6-4e33-85a8-fffc8e270acc"
+        },
+        {
+            "name": "BLD_1f98e28f-fee8-40e0-9fde-1f13570b45df"
+        },
+        {
+            "name": "BLD_5f170033-e14f-4211-b6a4-0005f6c649ab"
+        },
+        {
+            "name": "BLD_56bcb9da-ad5b-4933-8124-008cbe83cf3f"
+        },
+        {
+            "name": "BLD_e7fd017f-c842-44c4-a70b-b5329b35f376"
+        },
+        {
+            "name": "BLD_990f40f4-d9b9-48dc-9c95-26411394e6bf"
+        },
+        {
+            "name": "BLD_746a7485-4d4d-4294-89ba-ce83edfff9d7"
+        },
+        {
+            "name": "BLD_36731069-d2c1-4a31-ad36-a0b30d5462c3"
+        },
+        {
+            "name": "BLD_ffdcd1a5-929d-4418-ba65-43f93c1c62e7"
+        },
+        {
+            "name": "BLD_26fb4564-f457-418b-92b5-023c8a163d64"
+        },
+        {
+            "name": "BLD_d7950819-b643-481b-bc33-04bb6efcb70c"
+        },
+        {
+            "name": "BLD_0a1854e6-1dd3-4652-b083-3ce195cb49d2"
+        },
+        {
+            "name": "BLD_f21312a2-adc2-440c-97da-a5dc6a30da48"
+        },
+        {
+            "name": "BLD_a08c8da0-af2f-4e0b-a847-357f5bd2cbdf"
+        },
+        {
+            "name": "BLD_25a53ea4-5f0b-40f9-b8d0-bc1b16f6399f"
+        },
+        {
+            "name": "BLD_0075afc0-018c-4e4e-b915-b6f67f1cb17c"
+        },
+        {
+            "name": "BLD_515344cb-8fe5-4b93-ae73-34b939db0816"
+        },
+        {
+            "name": "BLD_e4c33721-f3f3-4a35-a927-86bb60702882"
+        },
+        {
+            "name": "BLD_7fb18bea-8196-4503-ad8f-af992e328e5a"
+        },
+        {
+            "name": "BLD_99383e0e-05a1-4f67-af14-d98f4149afd1"
+        },
+        {
+            "name": "BLD_47134315-79d1-417e-986e-8853184d8e39"
+        },
+        {
+            "name": "BLD_b905b2ad-724c-4976-b523-5eb4726c0fa8"
+        },
+        {
+            "name": "BLD_2202d19b-4e92-4342-9633-9958c837f8bf"
+        },
+        {
+            "name": "BLD_a9bde0a3-3485-44f7-a462-73bdc032e5d7"
+        },
+        {
+            "name": "BLD_3b219c1e-cd2d-46f3-94fc-d5e22488e1b1"
+        },
+        {
+            "name": "BLD_838eed43-89b9-4ebd-b812-eb6ca949c8dc"
+        },
+        {
+            "name": "BLD_1e9829b1-ebd3-407d-aadf-c6cc347d29cf"
+        },
+        {
+            "name": "BLD_da246792-8b27-42eb-96f1-5905a3348fe9"
+        },
+        {
+            "name": "BLD_ac4d95f7-696c-4e69-9989-c056be73c3eb"
+        },
+        {
+            "name": "BLD_c63e10fc-2d14-47e6-bd07-5fc56a71b552"
+        },
+        {
+            "name": "BLD_67910258-b5dc-4ff4-918b-684db391588c"
+        },
+        {
+            "name": "BLD_b8162b7c-f243-4264-a658-bb4789024cf6"
+        },
+        {
+            "name": "BLD_0b47b75e-4192-4368-a1a1-c41c6651213c"
+        },
+        {
+            "name": "BLD_93ecfe80-e6f5-4752-91c7-1225b634d02b"
+        },
+        {
+            "name": "BLD_661350e3-569b-4895-a9a6-32464a0b6522"
+        },
+        {
+            "name": "BLD_13a5200b-8de1-4fec-9525-c96755404530"
+        },
+        {
+            "name": "BLD_007b0912-5c45-4fd1-9db8-0d377f728db6"
+        },
+        {
+            "name": "BLD_a993e42a-4541-4a62-b2f1-64171f8cd7c1"
+        },
+        {
+            "name": "BLD_84552e99-eff6-4d85-b7e1-8579fcf0de44"
+        },
+        {
+            "name": "BLD_4fc1ceb1-8cfa-4df2-b2da-c681f9b4145b"
+        },
+        {
+            "name": "BLD_3412272a-de29-4219-8761-fe8487f8cd05"
+        },
+        {
+            "name": "BLD_9c7aee27-e913-4dd8-8f5b-210ad565a0f2"
+        },
+        {
+            "name": "BLD_c0adcd19-bbab-46d2-8fdc-5d70f26e2c58"
+        },
+        {
+            "name": "BLD_d4309bb6-a9d6-4339-94d4-d592c98d43e9"
+        },
+        {
+            "name": "BLD_8327d507-50dc-464a-8853-8b744b385790"
+        },
+        {
+            "name": "BLD_a05dceaf-6852-4666-8380-856739a281d5"
+        },
+        {
+            "name": "BLD_b049d245-7819-47ef-976b-c3fa1500cbde"
+        },
+        {
+            "name": "BLD_0fba9192-3e95-4fce-b775-edf5a17a41c9"
+        },
+        {
+            "name": "BLD_0377acb8-9fe6-4966-ac0f-0c15f96f3175"
+        },
+        {
+            "name": "BLD_f81a654e-1f02-4f5d-9596-2fd73819c94f"
+        },
+        {
+            "name": "BLD_fe0ed6c8-2592-42cf-a749-68248d1aacc7"
+        },
+        {
+            "name": "BLD_76ada763-053b-4aff-89db-bd8afe3ee699"
+        },
+        {
+            "name": "BLD_aa82a90c-9612-47ef-aed6-30857451f8ff"
+        },
+        {
+            "name": "BLD_119171fd-d8c2-4942-b2f5-fb76613a4ef7"
+        },
+        {
+            "name": "BLD_2f84d79f-0608-49ea-bb51-ccb1a431834c"
+        },
+        {
+            "name": "BLD_246951d1-36d3-4ec2-b16b-121332615da8"
+        },
+        {
+            "name": "BLD_e027ea13-e7ca-46ae-a17f-3b774ae0e3a7"
+        },
+        {
+            "name": "BLD_6dfee59d-b076-4202-9ebd-46d1ea49dec2"
+        },
+        {
+            "name": "BLD_c6d603ae-d5d7-4612-96e5-51a177786b3c"
+        },
+        {
+            "name": "BLD_904e7c3f-dc1d-42a7-9557-459367764455"
+        },
+        {
+            "name": "BLD_bd40ae73-c6de-46e6-99a4-7fd9f27c0e85"
+        },
+        {
+            "name": "BLD_17d4c118-e200-4937-b9e3-1e652a27cfde"
+        },
+        {
+            "name": "BLD_f5cd824e-bfff-4031-ba0f-67860e9239d4"
+        },
+        {
+            "name": "BLD_baa5e957-6b35-4067-9542-be577a9df2fe"
+        },
+        {
+            "name": "BLD_1772b2f1-fa65-4604-9fda-559a707b2a75"
+        },
+        {
+            "name": "BLD_8878ab84-6afa-4fda-a77d-b7691ecdc1b8"
+        },
+        {
+            "name": "BLD_08776fbc-3eb3-410d-9c0b-55dba2c2e379"
+        },
+        {
+            "name": "BLD_e98e4138-fbc5-42f9-b82b-ebf8f674312d"
+        },
+        {
+            "name": "BLD_0da8e17f-1b9b-4694-9357-dd3447754c24"
+        },
+        {
+            "name": "BLD_781badaf-806c-4522-a73e-6d5be505476a"
+        },
+        {
+            "name": "BLD_cab30dda-5e0c-45ce-8df0-a2d2da1db853"
+        },
+        {
+            "name": "BLD_9572a679-91de-44b0-b6db-1580795a4b59"
+        },
+        {
+            "name": "BLD_ad6612b9-28f9-4397-8e25-0e30507cb2c7"
+        },
+        {
+            "name": "BLD_eaa81ac1-c395-46dc-ac40-745c173d834e"
+        },
+        {
+            "name": "BLD_cada563e-379d-4e15-be76-b312302d6e3e"
+        },
+        {
+            "name": "BLD_7210b638-da58-4c91-9ba2-0440a26b0877"
+        },
+        {
+            "name": "BLD_3431d868-304d-44a6-8004-60c820bd205d"
+        },
+        {
+            "name": "BLD_266fa2f2-67ca-43ab-96de-467134d7e906"
+        },
+        {
+            "name": "BLD_48b76849-8f0f-481d-93d4-85b12e393c4b"
+        },
+        {
+            "name": "BLD_8f8814b7-2dfe-4dbe-a7ac-2d9231e705ec"
+        },
+        {
+            "name": "BLD_6284c029-8668-4fc5-b3a3-e73501976727"
+        },
+        {
+            "name": "BLD_8fa2b0dd-4723-40a5-a35c-7a1815712fa4"
+        },
+        {
+            "name": "BLD_28fdea42-4135-4f52-8329-ff34c8b87a15"
+        },
+        {
+            "name": "BLD_32a54235-ce30-4cab-9088-2257c7526cbf"
+        },
+        {
+            "name": "BLD_20922665-7590-4ee5-bd88-c9225e0f3229"
+        },
+        {
+            "name": "BLD_4af3a079-760b-4f09-851c-67ca952a4d3a"
+        },
+        {
+            "name": "BLD_111e924b-7499-4a59-894b-250bfbae6ca8"
+        },
+        {
+            "name": "BLD_10b0c873-b836-430f-b0fd-30d289125719"
+        },
+        {
+            "name": "BLD_58776814-54d8-44d2-9981-5bc4076a3b0e"
+        },
+        {
+            "name": "BLD_6aa586aa-0363-42fe-965b-3df824918f9c"
+        },
+        {
+            "name": "BLD_ddf70e01-6bfb-4439-8174-ba7e9005f976"
+        },
+        {
+            "name": "BLD_53395763-311e-4c75-a3d2-7cae72f4a4ad"
+        },
+        {
+            "name": "BLD_0aed618c-6402-4384-95d5-72c68340d294"
+        },
+        {
+            "name": "BLD_f65bfb35-b342-45a6-a4d3-8d43df02a23e"
+        },
+        {
+            "name": "BLD_2998ac2a-79d1-4284-bdf1-6310149a9eb7"
+        },
+        {
+            "name": "BLD_581c7d4b-ba56-48e0-bf24-cb8bba577655"
+        },
+        {
+            "name": "BLD_ed97f4c1-4187-4e12-b397-6865d41087d2"
+        },
+        {
+            "name": "BLD_9024e2b5-eab3-4b34-a432-cb6689237c49"
+        },
+        {
+            "name": "BLD_c4b289bf-a3dc-41e7-96fa-a63c0627f004"
+        },
+        {
+            "name": "BLD_40523986-2dc5-4c9f-90c7-698602478850"
+        },
+        {
+            "name": "BLD_075c22ff-4b0b-4c5b-a8ab-062115813de0"
+        },
+        {
+            "name": "BLD_bb016432-7656-4904-ab86-e7e39080f583"
+        },
+        {
+            "name": "BLD_ddd32203-8f86-4762-b625-19c0717533fe"
+        },
+        {
+            "name": "BLD_02d6999f-603a-4b54-b6c4-0e1623d82fc1"
+        },
+        {
+            "name": "BLD_4e936f2e-3410-40e9-91c1-c2c762afe476"
+        },
+        {
+            "name": "BLD_6a9a43de-72b0-49cb-8590-1e14689576b5"
+        },
+        {
+            "name": "BLD_f8bc72c9-cd58-4f92-8036-3148cb19b629"
+        },
+        {
+            "name": "BLD_4638848f-bc92-4df7-8c48-e03de215c49e"
+        },
+        {
+            "name": "BLD_243bf1b7-2602-4a03-a13a-f096fcd8a487"
+        },
+        {
+            "name": "BLD_5b950f57-bb42-43b5-8815-df7aaa951bd7"
+        },
+        {
+            "name": "BLD_2cb3b69f-72cd-4a76-90a9-6fe231e0d260"
+        },
+        {
+            "name": "BLD_150389eb-185d-4d50-a995-17d8e180d613"
+        },
+        {
+            "name": "BLD_7dfbc810-43c0-41c7-b972-5292b00b3f18"
+        },
+        {
+            "name": "BLD_af262498-1d42-4612-916b-5a57fe248d43"
+        },
+        {
+            "name": "BLD_129b550e-a802-438e-b3a2-0d3571a6e496"
+        },
+        {
+            "name": "BLD_1acd200d-4d2c-4b83-80fd-0fa847cb33c1"
+        },
+        {
+            "name": "BLD_50608148-a994-4996-836e-c833e41d6324"
+        },
+        {
+            "name": "BLD_8c02a699-8b8e-4479-910f-bd8659b6444d"
+        },
+        {
+            "name": "BLD_acb59485-1c8c-4ccd-812d-b110e92959f3"
+        },
+        {
+            "name": "BLD_fa302fe6-c16b-4f0e-af5b-d23da7da4f06"
+        },
+        {
+            "name": "BLD_4039e5b2-d99a-498f-9e33-e5350d585f97"
+        },
+        {
+            "name": "BLD_757f4fa3-18e7-4a36-979b-09acf59c288e"
+        },
+        {
+            "name": "BLD_120729d7-0c88-40af-9131-45cbb2a7797a"
+        },
+        {
+            "name": "BLD_9da2a7a3-20de-435b-88a1-3729778671cf"
+        },
+        {
+            "name": "BLD_7bb47e2f-c7dc-4717-be1a-365a8f422d29"
+        },
+        {
+            "name": "BLD_0ca9904a-dd45-4768-969d-125d6c193b65"
+        },
+        {
+            "name": "BLD_c150a49e-f27b-4d44-9e42-e823456e7e17"
+        },
+        {
+            "name": "BLD_eea9660c-dc5d-484f-b9d6-0a07e18bf5d8"
+        },
+        {
+            "name": "BLD_81bd0614-9163-4e7e-ad98-2435be1cce51"
+        },
+        {
+            "name": "BLD_74fcd1cc-4414-45fc-863b-cd1d4626f039"
+        },
+        {
+            "name": "BLD_a077378f-f7e3-4ea0-879c-d7b23d84b5ef"
+        },
+        {
+            "name": "BLD_bffd771e-c44d-4b71-ae77-28d953cd99d1"
+        },
+        {
+            "name": "BLD_f3cebcd0-7693-4df1-9d95-34a205795dc1"
+        },
+        {
+            "name": "BLD_26099c65-d9dd-40d3-8c9c-d13a10590d33"
+        },
+        {
+            "name": "BLD_c5a34401-2496-4189-97de-ea334a1eefaa"
+        },
+        {
+            "name": "BLD_2f956a01-6e3f-432e-b023-4fa43ffe7990"
+        },
+        {
+            "name": "BLD_6dcc268a-d490-4520-ac7e-cb9cf3a4bca5"
+        },
+        {
+            "name": "BLD_677e9beb-f996-4de7-b569-3a0b5baf77e1"
+        },
+        {
+            "name": "BLD_21b6ee79-e8ea-4a23-be2c-d611d4bd242a"
+        },
+        {
+            "name": "BLD_eb734685-6607-422b-acf8-5ce1d49b757f"
+        },
+        {
+            "name": "BLD_e265137c-bf4a-4a4b-aac5-349ac5541c84"
+        },
+        {
+            "name": "BLD_e5a2253f-02ff-4059-98d5-d15eb8bd027e"
+        },
+        {
+            "name": "BLD_69e22832-ea7f-4c73-93c7-57fa60535130"
+        },
+        {
+            "name": "BLD_71f167bf-5b1d-41a2-8da9-f95312685be4"
+        },
+        {
+            "name": "BLD_aa2b2ef9-9430-4a26-880a-c9295b5df665"
+        },
+        {
+            "name": "BLD_0dac9846-873b-4820-901d-1ae0421e7782"
+        },
+        {
+            "name": "BLD_639da055-025f-44e9-83ec-72620bc24c9f"
+        },
+        {
+            "name": "BLD_99f167dd-73ca-4a88-bf3b-80e89ecee1e0"
+        },
+        {
+            "name": "BLD_1b7b609f-f85c-49ce-87f9-932183308774"
+        },
+        {
+            "name": "BLD_91b82b87-ea61-4f90-bd88-a61d50cd1620"
+        },
+        {
+            "name": "BLD_c37cacc4-7479-4fe4-a7c1-448375ae9a85"
+        },
+        {
+            "name": "BLD_48cc1cae-cc43-4ac2-8c46-9c5635d9dafd"
+        },
+        {
+            "name": "BLD_9df400aa-1b69-4f95-8759-95cea168719f"
+        },
+        {
+            "name": "BLD_c77e54a8-2943-4608-a68d-404e173401c8"
+        },
+        {
+            "name": "BLD_c90881a8-0d30-4dda-9f8d-784b8153e31c"
+        },
+        {
+            "name": "BLD_43678ca0-f691-4757-8b61-c97055351028"
+        },
+        {
+            "name": "BLD_3eca8498-c516-4492-9a6f-b49c32803119"
+        },
+        {
+            "name": "BLD_fd1cf61b-7fa9-4f7e-9314-670a1098b1cc"
+        },
+        {
+            "name": "BLD_46330338-df49-4e41-a0cf-08e5ae1379e1"
+        },
+        {
+            "name": "BLD_d387dee5-0bcc-45b1-803e-846554caef93"
+        },
+        {
+            "name": "BLD_48fbba46-20b2-48f4-a3c5-340e345367ac"
+        },
+        {
+            "name": "BLD_84411bee-8229-4e96-983d-d069545e74d4"
+        },
+        {
+            "name": "BLD_a8100c57-b7a6-4ef3-9e13-188e23a02df2"
+        },
+        {
+            "name": "BLD_d4b7e2dd-9843-45c9-9713-c813c732065a"
+        },
+        {
+            "name": "BLD_c82949e6-e774-4255-912e-161225b1dcea"
+        },
+        {
+            "name": "BLD_30ed17b7-6da1-4640-9b64-bc02b9f455fc"
+        },
+        {
+            "name": "BLD_49a17e11-275b-4a58-bf4e-0ba3c0125a09"
+        },
+        {
+            "name": "BLD_eb775e00-9de6-4b5a-b260-9cb995e0c5e9"
+        },
+        {
+            "name": "BLD_91c38487-45b5-4d04-9cd2-5b0e08740c16"
+        },
+        {
+            "name": "BLD_73d9b0ba-b03a-487d-9bc6-2802786e9032"
+        },
+        {
+            "name": "BLD_b7b54d24-c0ae-47b0-b652-c02fea7d348b"
+        },
+        {
+            "name": "BLD_7a71db58-a286-4074-8eda-f6d652a0bd33"
+        },
+        {
+            "name": "BLD_48506958-b375-47ea-9917-bbc50df0c567"
+        },
+        {
+            "name": "BLD_3614d18a-6201-46f5-96ee-4a552776b2bb"
+        },
+        {
+            "name": "BLD_76da8e5a-5396-48d9-b9a0-14237d8746f9"
+        },
+        {
+            "name": "BLD_188f714a-ea8a-401a-bef7-db05c0a434e4"
+        },
+        {
+            "name": "BLD_8bf758ba-c0b7-4c5e-a430-d3adbcd1ce33"
+        },
+        {
+            "name": "BLD_87bddd8c-d24c-4633-9aed-33f71d33437f"
+        },
+        {
+            "name": "BLD_819b6d68-5d4b-4bd9-9d2e-78372940ef3d"
+        },
+        {
+            "name": "BLD_45616653-c5d8-4eaf-8b83-0dbfdfceb5b3"
+        },
+        {
+            "name": "BLD_3d5634e0-09f4-431f-bb7b-9231e33dd866"
+        },
+        {
+            "name": "BLD_e931c1a5-d6ad-4ab0-a827-6eb755874074"
+        },
+        {
+            "name": "BLD_70780e6c-eadd-404f-b1ba-91820b1f4469"
+        },
+        {
+            "name": "BLD_978e62a4-ed1e-4edb-b938-58bdf90a93b2"
+        },
+        {
+            "name": "BLD_1017cfd2-35ca-4b81-a471-39075edd6f33"
+        },
+        {
+            "name": "BLD_8f4d2441-7dfb-4742-b140-287747bcd373"
+        },
+        {
+            "name": "BLD_20be3ba7-8e9e-4d69-8ee7-842d7a475052"
+        },
+        {
+            "name": "BLD_ff0b00fa-b229-401e-988a-95b569d59db1"
+        },
+        {
+            "name": "BLD_b83ba948-43f5-4fdb-9ba2-b4844104ef07"
+        },
+        {
+            "name": "BLD_ba1021f8-afb1-4985-bfa5-2a74ce429501"
+        },
+        {
+            "name": "BLD_be7540ef-994c-41dc-8fcc-99f4e371a472"
+        },
+        {
+            "name": "BLD_2a4ea727-652f-4912-a09d-aac3c326be15"
+        },
+        {
+            "name": "BLD_3ce3a0bf-27bc-4c38-8ac9-2bbf8ebb5f70"
+        },
+        {
+            "name": "BLD_f3a72f7f-b779-45b3-8503-e023d952322e"
+        },
+        {
+            "name": "BLD_bbc7a34e-13bd-4e3d-b36c-8d10c4956233"
+        },
+        {
+            "name": "BLD_7320cdfe-8393-47cf-b321-c13492f3a791"
+        },
+        {
+            "name": "BLD_483d4ab3-e737-42cc-9126-ee9217c50e37"
+        },
+        {
+            "name": "BLD_e2875b7f-1116-419c-8374-d7bf741e9eb6"
+        },
+        {
+            "name": "BLD_0785c0af-b9f0-4e45-b493-728135487340"
+        },
+        {
+            "name": "BLD_f586a935-3bc6-4e1f-b16b-ec8ffe7f6831"
+        },
+        {
+            "name": "BLD_e36883b1-2546-46dd-b5c2-57cf7b5f8fea"
+        },
+        {
+            "name": "BLD_587998e7-aba9-4427-a424-24ef0acb1f4d"
+        },
+        {
+            "name": "BLD_c5ce762f-60f4-4583-86b8-f5eeedc659a4"
+        },
+        {
+            "name": "BLD_db6463a5-dc11-4ddd-bbb4-ca976f6fdfe3"
+        },
+        {
+            "name": "BLD_3d208127-ecd5-416e-9a1a-5968833eacff"
+        },
+        {
+            "name": "BLD_5c5cff78-4599-4880-b00f-74e4c158f3a5"
+        },
+        {
+            "name": "BLD_96b6671a-b27e-4d45-9851-6b1157e27752"
+        },
+        {
+            "name": "BLD_dd8ac04a-9388-4d8a-a495-c11d35e4c53f"
+        },
+        {
+            "name": "BLD_a3f85650-81a9-4d23-920d-2ba7efc6f7c0"
+        },
+        {
+            "name": "BLD_0570e1b1-b55d-4404-86d7-73db3c931b63"
+        },
+        {
+            "name": "BLD_bdde82fb-3d41-4406-9b67-eea0a618d268"
+        }
+    ],
+    "scenes": [
+        {
+            "nodes": [
+                0
+            ]
+        }
+    ],
+    "scene": 0
+}
