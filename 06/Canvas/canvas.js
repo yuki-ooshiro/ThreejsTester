@@ -86,7 +86,7 @@ export class Canvas {
 
     //---------------gUI--------
     const pane = new Tweakpane();
-    this.guuisetup(pane);
+    this.guisetup(pane);
     renderer.setClearColor( firstCol, 1 );
 
     pane.on('change', (val) => {
@@ -268,12 +268,4 @@ function clickup(event){
 
 function handleKeydown(event) {
   var keyCode = event.keyCode;
-  // if (keyCode == 65) {// A
-  //   console.log("camera.position.x : " + camera.position.x);
-  //   console.log("camera.position.y : " + camera.position.y);
-  //   console.log("camera.position.z : " + camera.position.z);
-  //   console.log("camera.rotation.x : " + camera.rotation.x);
-  //   console.log("camera.rotation.y : " + camera.rotation.y);
-  //   console.log("camera.rotation.z : " + camera.rotation.z);
-  // }
 }
