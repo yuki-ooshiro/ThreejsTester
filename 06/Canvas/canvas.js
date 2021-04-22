@@ -11,27 +11,37 @@ let windowHalfX = window.innerWidth / 2;
 let windowHalfY = window.innerHeight / 2;
 
 var clock = new THREE.Clock();
+let isClick = false;
+let cliclFadeTime = 15;
+let cliclFade = cliclFadeTime;
 
 let modelNum = 4;//読み込む3dモデルの数
 
 let pane;
-let firstCol = "rgb(180,255,180)";
+let firstCol = "rgb(34,31,29)";
 	
 const PARAMS = {
-  backgroundColor: {r: 180,g: 255,b: 180},
+  backgroundColor: {r: 34,g: 31,b: 29},
   CamRotationX : .0,
   CamRotationY : .0,
   CamRotationZ : .0,
+  moveSpeed : 4,
 };
 
 export class Canvas {
   constructor() {
     const container = document.createElement('div');
     document.body.appendChild(container);
+    window.addEventListener("keydown", handleKeydown);
+    window.addEventListener('mousemove', onDocumentMouseMove);
+    window.addEventListener('mousedown', clickdown);
+    window.addEventListener('mouseup', clickup);
+    window.addEventListener('resize', onWindowResize);
 
-    camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 1, 2000);
+    //camera
+    camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 1, 2000);
     camera.rotation.set(0, Math.PI / 2, Math.PI / 2);
-    camera.position.set(-3800, 10, 38700);
+    camera.position.set(-3800, 8, 38700);
 
     // scene
     scene = new THREE.Scene();
@@ -48,35 +58,94 @@ export class Canvas {
         console.log(Math.round(percentComplete, 2) + '% downloaded');
       }
     };
-
     const onError = function () { };
-
     const manager = new THREE.LoadingManager();
     manager.addHandler(/\.dds$/i, new DDSLoader());
+    // OBJ & MTL
+    this.modelsetup_2(onProgress,onError);
 
-    // OBJ MTLの読み込み
-    // for (var i = 0; i < modelNum; i++) {
-    //   var mtlLoader = new MTLLoader();
-    //   var pathString = 'models/obj/pla/' + String(i)+ '/';
-    //   mtlLoader.setPath(pathString);              // this/is/obj/path/
-    //   mtlLoader.load('materials.mtl', function (materials) {
-    //     materials.preload();
-    //     var objLoader = new OBJLoader();
-    //     objLoader.setMaterials(materials);
-    //     objLoader.setPath(pathString);            // this/is/obj/path/
-    //     objLoader.load('obj.obj', function (object) {
+    //-----------------Renderer
+    renderer = new THREE.WebGLRenderer({ alpha: true });
+    renderer.autoClear = true;
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    container.appendChild(renderer.domElement);
 
-    //       object.opacity = 1;
-    //       object.visibility = true;
-    //       object.scale.set(1, 1, 1);
-    //       // object.position.set(11200,50900,-30);
-    //       object.position.set(0, 0, 0);
-    //       object.rotation.set(-Math.PI / 2, 0, 0);
-    //       scene.add(object);                       // sceneに追加
-    //     }, onProgress, onError);
-    //   });
-    // }
+    //--------------FirstPersonControls---------
+    controls = new FirstPersonControls(camera, renderer.domElement);
+    controls.lookSpeed = 0.05;
+    controls.movementSpeed = 4;
+    controls.noFly = true;
+    controls.lookVertical = true; // false : 首を上下に振れない
+    controls.autoForward = false;
+    controls.activeLook = false; // false : 一方向しか見られない
+    // 首を上下する角度
+    controls.constrainVertical = true;
+    controls.verticalMin = 1.0;
+    controls.verticalMax = 2.0;
 
+    //---------------gUI--------
+    const pane = new Tweakpane();
+    this.guuisetup(pane);
+    renderer.setClearColor( firstCol, 1 );
+
+    pane.on('change', (val) => {
+      PARAMS.backgroundColor.r = Math.round(PARAMS.backgroundColor.r);  //四捨五入
+      PARAMS.backgroundColor.g = Math.round(PARAMS.backgroundColor.g);
+      PARAMS.backgroundColor.b = Math.round(PARAMS.backgroundColor.b);
+      controls.movementSpeed = PARAMS.moveSpeed;
+      var col = "rgb("+PARAMS.backgroundColor.r +", "+ PARAMS.backgroundColor.g + ", "+PARAMS.backgroundColor.b + ")";
+      const color = new THREE.Color(col);
+      renderer.setClearColor( color, 1 );
+    });
+
+    animate();
+  }
+
+  guisetup(pane){
+    // pane.addInput(PARAMS, 'backgroundColor');
+    pane.addInput(PARAMS, 'backgroundColor', {
+      input: 'color',
+    });
+    pane.addInput(PARAMS, 'moveSpeed'); 
+    const f1 = pane.addFolder({
+      title: 'CameraSetting',
+    });
+    f1.addMonitor(PARAMS, 'CamRotationX', {
+      title: 'Number',
+    });
+    f1.addMonitor(PARAMS, 'CamRotationY', {
+      title: 'Number',
+    });
+    f1.addMonitor(PARAMS, 'CamRotationZ', {
+      title: 'Number',
+    });
+  }
+
+  modelsetup_1(onProgress,onError){
+    for (var i = 0; i < modelNum; i++) {
+      var mtlLoader = new MTLLoader();
+      var pathString = 'models/obj/pla/' + String(i)+ '/';
+      mtlLoader.setPath(pathString);              // this/is/obj/path/
+      mtlLoader.load('materials.mtl', function (materials) {
+        materials.preload();
+        var objLoader = new OBJLoader();
+        objLoader.setMaterials(materials);
+        objLoader.setPath(pathString);            // this/is/obj/path/
+        objLoader.load('obj.obj', function (object) {
+
+          object.opacity = 1;
+          object.visibility = true;
+          object.scale.set(1, 1, 1);
+          // object.position.set(11200,50900,-30);
+          object.position.set(0, 0, 0);
+          object.rotation.set(-Math.PI / 2, 0, 0);
+          scene.add(object);                       // sceneに追加
+        }, onProgress, onError);
+      });
+    }
+  }
+  modelsetup_2(onProgress,onError){
     var mtlLoader0 = new MTLLoader();
     var pathString0 = 'models/obj/pla/0/';
     mtlLoader0.setPath(pathString0);              // this/is/obj/path/
@@ -154,69 +223,6 @@ export class Canvas {
         scene.add(object);                       // sceneに追加
       }, onProgress, onError);
     });
-
-    //-----------------XYZ軸を表示
-    var axes = new THREE.AxisHelper(20);
-    scene.add(axes);
-
-    //-----------------Renderer
-    renderer = new THREE.WebGLRenderer({ alpha: true });
-    renderer.autoClear = true;
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    container.appendChild(renderer.domElement);
-
-    //--------------FirstPersonControls---------
-    controls = new FirstPersonControls(camera, renderer.domElement);
-
-    controls.lookSpeed = 0.05;
-    controls.movementSpeed = 4;
-    controls.noFly = true;
-    controls.lookVertical = true; // false : 首を上下に振れない
-    controls.autoForward = false;
-
-    controls.activeLook = true; // false : 一方向しか見られない
-
-    // 首を上下する角度
-    controls.constrainVertical = true;
-    controls.verticalMin = 1.0;
-    controls.verticalMax = 2.0;
-
-    window.addEventListener("keydown", handleKeydown);
-    document.addEventListener('mousemove', onDocumentMouseMove);
-    // window.addEventListener('resize', onWindowResize);
-
-    //---------------gUI--------
-    const pane = new Tweakpane();
-    // pane.addInput(PARAMS, 'backgroundColor');
-    pane.addInput(PARAMS, 'backgroundColor', {
-      input: 'color',
-    });
-    pane.addMonitor(PARAMS, 'CamRotationX', {
-      title: 'Number',
-    });
-    pane.addMonitor(PARAMS, 'CamRotationY', {
-      title: 'Number',
-    });
-    pane.addMonitor(PARAMS, 'CamRotationZ', {
-      title: 'Number',
-    });
-    renderer.setClearColor( firstCol, 1 );
-    // pane.addInput(PARAMS, 'tint');
-
-    pane.on('change', (val) => {
-      // document.getElementById("back").style.backgroundColor = val;
-      PARAMS.backgroundColor.r = Math.round(PARAMS.backgroundColor.r);  //四捨五入
-      PARAMS.backgroundColor.g = Math.round(PARAMS.backgroundColor.g);
-      PARAMS.backgroundColor.b = Math.round(PARAMS.backgroundColor.b);
-      var col = "rgb("+PARAMS.backgroundColor.r +", "+ PARAMS.backgroundColor.g + ", "+PARAMS.backgroundColor.b + ")";
-      const color = new THREE.Color(col);
-      // var color = Number(col,16); 
-      // console.log("color :" + color);
-      renderer.setClearColor( color, 1 );
-    });
-
-    animate();
   }
 };
 
@@ -225,12 +231,19 @@ function animate() {
   render();
 }
 function render() {
-  // camera.position.x += (mouseX - camera.position.x) * .05;
-  // camera.position.y += (- mouseY - camera.position.y) * .05;
   controls.update(clock.getDelta());
   PARAMS.CamRotationX = camera.rotation.x;
   PARAMS.CamRotationY = camera.rotation.y;
   PARAMS.CamRotationZ = camera.rotation.z;
+  if(isClick){
+    controls.activeLook = true;
+  }else{
+    cliclFade--;
+    if(cliclFade <1){
+      controls.activeLook = false;
+      cliclFade = cliclFadeTime;
+    }
+  }
   renderer.render(scene, camera);
 }
 
@@ -246,32 +259,21 @@ function onDocumentMouseMove(event) {
   mouseX = (event.clientX - windowHalfX);
   mouseY = (event.clientY - windowHalfY);
 }
+function clickdown(event){
+  isClick = true;  
+}
+function clickup(event){
+  isClick = false;  
+}
 
 function handleKeydown(event) {
   var keyCode = event.keyCode;
-  // if (keyCode == 39) {// →
-  //   camera.position.y += 5;
+  // if (keyCode == 65) {// A
   //   console.log("camera.position.x : " + camera.position.x);
-  // }
-  // if (keyCode == 37) {// ←  
-  //   camera.position.y -= 5;
-  //   console.log("camera.position.x : " + camera.position.x);
-  // }
-
-  // if (keyCode == 38) {// ↑
-  //   camera.position.x -= 10;
+  //   console.log("camera.position.y : " + camera.position.y);
   //   console.log("camera.position.z : " + camera.position.z);
+  //   console.log("camera.rotation.x : " + camera.rotation.x);
+  //   console.log("camera.rotation.y : " + camera.rotation.y);
+  //   console.log("camera.rotation.z : " + camera.rotation.z);
   // }
-  // if (keyCode == 40) {// ↓
-  //   camera.position.x += 10;
-  //   console.log("camera.position.z : " + camera.position.z);
-  // }
-  if (keyCode == 65) {// A
-    console.log("camera.position.x : " + camera.position.x);
-    console.log("camera.position.y : " + camera.position.y);
-    console.log("camera.position.z : " + camera.position.z);
-    console.log("camera.rotation.x : " + camera.rotation.x);
-    console.log("camera.rotation.y : " + camera.rotation.y);
-    console.log("camera.rotation.z : " + camera.rotation.z);
-  }
 }
