@@ -1,0 +1,365 @@
+# Created with FME Version: FME(R) 2020.2.0.0 20201027 - Build 20787 - WIN64
+newmtl tysu0343
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0343.png
+
+newmtl tysu0325
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0325.png
+
+newmtl tysu0362
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0362.png
+
+newmtl tysu0296
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0296.png
+
+newmtl tysu2143
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu2143.png
+
+newmtl tysu0382
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0382.png
+
+newmtl tysu1987
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1987.png
+
+newmtl tysu0288
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0288.png
+
+newmtl tysu0340
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0340.png
+
+newmtl tysu1980
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1980.png
+
+newmtl tysu1865
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1865.png
+
+newmtl tysu2013
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu2013.png
+
+newmtl tysu1998
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1998.png
+
+newmtl tysu0357
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0357.png
+
+newmtl tysu0287
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0287.png
+
+newmtl tysu1986
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1986.png
+
+newmtl tysu2109
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu2109.png
+
+newmtl tysu0342
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0342.png
+
+newmtl tysu2005
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu2005.png
+
+newmtl tysu1920
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1920.png
+
+newmtl tysu1919
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1919.png
+
+newmtl tysu0367
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0367.png
+
+newmtl tysu0161
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0161.png
+
+newmtl tysu2004
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu2004.png
+
+newmtl tysu0341
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0341.png
+
+newmtl tysu0365
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0365.png
+
+newmtl tysu2053
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu2053.png
+
+newmtl tysu0346
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0346.png
+
+newmtl tysu0384
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0384.png
+
+newmtl tysu0284
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0284.png
+
+newmtl tysu2011
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu2011.png
+
+newmtl tysu0350
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0350.png
+
+newmtl tysu1979
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1979.png
+
+newmtl tysu1981
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1981.png
+
+newmtl tysu2000
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu2000.png
+
+newmtl tysu1997
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1997.png
+
+newmtl tysu0120
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0120.png
+
+newmtl tysu1999
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1999.png
+
+newmtl tysu0355
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0355.png
+
+newmtl tysu0117
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0117.png
+
+newmtl tysu0307
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0307.png
+
+newmtl tysu1983
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1983.png
+
+newmtl tysu0297
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0297.png
+
+newmtl tysu2015
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu2015.png
+
+newmtl tysu2001
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu2001.png
+
+newmtl tysu0289
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0289.png
+
+newmtl tysu2012
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu2012.png
+
+newmtl tysu0327
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0327.png
+
+newmtl tysu2003
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu2003.png
+
+newmtl tysu2008
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu2008.png
+
+newmtl tysu1917
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1917.png
+
+newmtl tysu0308
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0308.png
+
+newmtl tysu0354
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0354.png
+
+newmtl tysu1924
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1924.png
+
+newmtl tysu2002
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu2002.png
+
+newmtl tysu0301
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0301.png
+
+newmtl tysu1984
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1984.png
+
+newmtl tysu0310
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0310.png
+
+newmtl tysu2052
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu2052.png
+
+newmtl tysu0377
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0377.png
+
+newmtl tysu0303
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0303.png
+
+newmtl tysu0306
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0306.png
+
+newmtl tysu1930
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1930.png
+
+newmtl tysu0300
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0300.png
+
+newmtl tysu1926
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1926.png
+
+newmtl tysu2145
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu2145.png
+
+newmtl tysu1940
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1940.png
+
+newmtl tysu1918
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1918.png
+
+newmtl tysu2006
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu2006.png
+
+newmtl tysu0391
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0391.png
+
+newmtl tysu0359
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0359.png
+
+newmtl tysu0118
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0118.png
+
+newmtl tysu0381
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0381.png
+
+newmtl tysu2142
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu2142.png
+
+newmtl tysu0385
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0385.png
+
+newmtl tysu0302
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0302.png
+
+newmtl tysu2111
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu2111.png
+
+newmtl tysu0312
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0312.png
+
+newmtl tysu2007
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu2007.png
+
+newmtl tysu0353
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0353.png
+
+newmtl tysu0285
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0285.png
+
+newmtl tysu0123
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0123.png
+
+newmtl tysu0351
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0351.png
+
+newmtl tysu0290
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0290.png
+
+newmtl tysu1985
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1985.png
+
+newmtl tysu1982
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1982.png
+
+newmtl tysu0313
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0313.png
+
+newmtl tysu0521
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0521.png
+
+newmtl tysu0352
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0352.png
+
+newmtl tysu0358
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0358.png
+
+newmtl tysu0336
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0336.png
+
