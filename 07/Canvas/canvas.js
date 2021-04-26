@@ -1,9 +1,11 @@
-import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r127/build/three.module.js';
-import { FBXLoader } from 'https://threejsfundamentals.org/threejs/resources/threejs/r127/examples/jsm/loaders/FBXLoader.js';
-import { OBJLoader } from 'https://threejsfundamentals.org/threejs/resources/threejs/r127/examples/jsm/loaders/OBJLoader.js';
-import { MTLLoader } from 'https://threejsfundamentals.org/threejs/resources/threejs/r127/examples/jsm/loaders/MTLLoader.js';
-import { DDSLoader } from 'https://threejsfundamentals.org/threejs/resources/threejs/r127/examples/jsm/loaders/DDSLoader.js';
+// import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r127/build/three.module.js';
+import * as THREE from 'https://unpkg.com/three@0.126.1/build/three.module.js';
 import { FirstPersonControls } from "https://threejs.org/examples/jsm/controls/FirstPersonControls.js";
+import { OBJLoader } from 'https://unpkg.com/three@0.126.1/examples/jsm/loaders/OBJLoader.js';
+import { MTLLoader } from 'https://unpkg.com/three@0.126.1/examples/jsm/loaders/MTLLoader.js';
+import { DDSLoader } from 'https://unpkg.com/three@0.126.1/examples/jsm/loaders/DDSLoader.js';
+import { Water } from 'https://unpkg.com/three@0.126.1/examples/jsm/objects/Water.js';
+// import { FirstPersonControls } from 'https://unpkg.com/three@0.126.1/examples/jsm/controls/FirstPersonControls.js';
 
 let camera, scene, renderer, controls;
 let mouseX = 0, mouseY = 0, preMouseX = 0, preMouseY = 0;
@@ -16,16 +18,19 @@ let cliclFadeTime = 15;
 let cliclFade = cliclFadeTime;
 
 let modelNum = 4;//読み込む3dモデルの数
+let water;
+
+const mtls = [];
+const objs = [];
 
 let pane;
-let firstCol = "rgb(34,31,29)";
+let firstCol = "rgb(222,222,222)";
 
 var viewMode = 1;
-
 let visible = false;
 
 const PARAMS = {
-  backgroundColor: { r: 34, g: 31, b: 29 },
+  backgroundColor: { r: 222, g: 222, b: 222 },
   CamRotationX: .0,
   CamRotationY: .0,
   CamRotationZ: .0,
@@ -44,9 +49,10 @@ export class Canvas {
     window.addEventListener('resize', onWindowResize);
 
     //camera
-    camera = new THREE.PerspectiveCamera(85, window.innerWidth / window.innerHeight, 1, 2000);
+    camera = new THREE.PerspectiveCamera(95, window.innerWidth / window.innerHeight, 0.1, 2000);
     camera.rotation.set(0, Math.PI / 2, Math.PI / 2);
     camera.position.set(-3800, 7, 38700);
+    camera.scale.set(0.5,0.5,0.5);
 
     // scene
     scene = new THREE.Scene();
@@ -61,17 +67,17 @@ export class Canvas {
     scene.fog = new THREE.Fog(0xdedede, 0.015, 1000);
 
     //makeGround
-    var map1 = THREE.ImageUtils.loadTexture( './Canvas/map1.jpg' );
+    var map1 = THREE.ImageUtils.loadTexture( './Canvas/map2.jpg' );
     map1.wrapS = THREE.RepeatWrapping;
     map1.wrapT = THREE.RepeatWrapping;
     map1.repeat.set(100, 100);
-    var geometry = new THREE.PlaneBufferGeometry( 5000, 5000, 100,100 );
+    var geometry = new THREE.PlaneBufferGeometry( 5000, 5000, 1000,1000 );
     var plane = new THREE.Mesh(
       geometry,
       new THREE.MeshLambertMaterial( { map: map1 } )
     );
     plane.rotation.x = Math.PI / -2;
-    plane.position.set(-3800, 5, 38700);
+    plane.position.set(-3800, 4, 38700);
     var simplexNoise = new SimplexNoise;
     for (var i = 0; i < geometry.attributes.position.count; i++ ) {
       geometry.attributes.position.setZ( i , simplexNoise.noise( geometry.attributes.position.getX(i) / 2, geometry.attributes.position.getY(i) / 20 ));
@@ -79,6 +85,27 @@ export class Canvas {
     plane.geometry.attributes.position.needsUpdate = true;
     geometry.computeVertexNormals();
     scene.add(plane);
+
+    //Water
+    const waterGeometry = new THREE.PlaneBufferGeometry( 5000, 5000, 1000,1000 );   
+    water = new Water(
+        waterGeometry,
+        {
+            textureWidth: 1024,
+            textureHeight: 1024,
+            waterNormals: new THREE.TextureLoader().load( './Canvas/Water_1_M_Normal.jpg', function(texture){
+                texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+            } ),
+            alpha: 1,
+            waterColor: 0x3e89ce,
+            distortionScale: 1.3,
+            fog:scene.fog !== undefined,
+        }
+    );
+    scene.add(water);
+    water.rotation.x = - Math.PI / 2;
+    water.position.set(-3800, 5, 38700);
+    
     //makeCrowd
     var map2 = THREE.ImageUtils.loadTexture( './Canvas/crowd.png' );
     var geometry_2 = new THREE.PlaneBufferGeometry( 1000, 1000, 1,1 );
@@ -141,10 +168,22 @@ export class Canvas {
       // document.body.style.background = "linear-gradient( " + color + ", #cdcdcd)";
       var colString = 'linear-gradient(' + col+','+'white)';
       document.body.style.background = colString;
-      console.log(document.body.style.background);
+      // scene.fog = new THREE.Fog(color, 0.015, 1000);
       viewMode = PARAMS.viewMode;
-      // scene.fog = new THREE.Fog(color, 0.015, 800);
     });
+
+    // scene.traverse((obj3d) => {
+    //   if(obj3d.material){
+    //     obj3d.material.wireframe = true;
+    //   }else{
+    //   }
+    //   if(Array.isArray(obj3d.material)){
+    //     obj3d.material.forEach(function(mat, idx){
+    //       mat.wireframe = true;
+    //       console.log("awake3");
+    //     });
+    //   }
+    // });
 
     animate();
   }
@@ -176,30 +215,65 @@ export class Canvas {
   }
 
   modelsetup_1(onProgress, onError) {
-    const wrap = new THREE.Object3D();  
+    // const wrap = new THREE.Object3D();  
+    var mtlLoader = new MTLLoader();
     for (var i = 0; i < modelNum; i++) {
-      var mtlLoader = new MTLLoader();
-      var pathString = 'models/obj/pla/' + String(i) + '/';
+      objs[i] = new THREE.Object3D(); 
+      var pathString = './models/obj/pla/' + String(i) + '/';
       mtlLoader.setPath(pathString);              // this/is/obj/path/
       mtlLoader.load('materials.mtl', function (materials) {
         materials.preload();
         var objLoader = new OBJLoader();
-        objLoader.setMaterials(materials);
+        // objLoader.setMaterials(materials);
         objLoader.setPath(pathString);            // this/is/obj/path/
         objLoader.load('obj.obj', function (object) {
-
           object.opacity = 1;
           object.visibility = true;
           object.scale.set(1, 1, 1);
           object.position.set(0, 0, 0);
           object.rotation.set(-Math.PI / 2, 0, 0);
-          wrap.add(object);
+          // wrap.add(object);
           // scene.add(object);                       // sceneに追加
         }, onProgress, onError);
       });
+      scene.add(objs[i]);
+      // console.log(objs[i].rotation.x);
     }
-    scene.add(wrap);
+    // scene.add(wrap);
   }
+
+  modelsetup_1(onProgress, onError) {
+    // const wrap = new THREE.Object3D();  
+    // var mtlLoader = new MTLLoader();
+    for (var i = 0; i < modelNum; i++) {
+      // objs[i] = new THREE.Object3D(); 
+      var pathString = './models/obj/pla/' + String(i) + '/';
+      // mtlLoader.setPath(pathString);              // this/is/obj/path/
+      // mtlLoader.load('materials.mtl', function (materials) {
+        // materials.preload();
+        var objLoader = new OBJLoader();
+        var mtl = new THREE.MeshPhongMaterial({                                      
+          color: 0x990000, //球の色
+          wireframe: true //ワイヤーフレーム有効
+        });
+        // objLoader.setMaterials(materials);
+        objLoader.setPath(pathString);            // this/is/obj/path/
+        objLoader.load('obj.obj', function (object) {
+          object.opacity = 1;
+          object.visibility = true;
+          object.scale.set(1, 1, 1);
+          object.position.set(0, 0, 0);
+          object.rotation.set(-Math.PI / 2, 0, 0);
+          // wrap.add(object);
+          scene.add(object);                       // sceneに追加
+        }, onProgress, onError);
+      // });
+      // scene.add(objs[i]);
+      // console.log(objs[i].rotation.x);
+    }
+    // scene.add(wrap);
+  }
+
   modelsetup_2(onProgress, onError) {
     var mtlLoader0 = new MTLLoader();
     var pathString0 = 'models/obj/pla/0/';
@@ -290,6 +364,7 @@ function animate() {
 }
 function render() {
   controls.update(clock.getDelta());
+  water.material.uniforms['time'].value += 1.0 / 60.0;
   PARAMS.CamRotationX = camera.rotation.x;
   PARAMS.CamRotationY = camera.rotation.y;
   PARAMS.CamRotationZ = camera.rotation.z;
