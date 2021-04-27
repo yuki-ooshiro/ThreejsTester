@@ -4,7 +4,8 @@ import { FirstPersonControls } from "https://threejs.org/examples/jsm/controls/F
 import { OBJLoader } from 'https://unpkg.com/three@0.126.1/examples/jsm/loaders/OBJLoader.js';
 import { MTLLoader } from 'https://unpkg.com/three@0.126.1/examples/jsm/loaders/MTLLoader.js';
 import { DDSLoader } from 'https://unpkg.com/three@0.126.1/examples/jsm/loaders/DDSLoader.js';
-import { Water } from 'https://unpkg.com/three@0.126.1/examples/jsm/objects/Water.js';
+// import { Water } from 'https://unpkg.com/three@0.126.1/examples/jsm/objects/Water.js';
+import { Water } from '../jsm/objects/Water.js';
 // import { FirstPersonControls } from 'https://unpkg.com/three@0.126.1/examples/jsm/controls/FirstPersonControls.js';
 
 let camera, scene, renderer, controls;
@@ -17,11 +18,12 @@ let isClick = false;
 let cliclFadeTime = 15;
 let cliclFade = cliclFadeTime;
 
-let modelNum = 4;//読み込む3dモデルの数
-let water;
+let modelNum = 12;//読み込む3dモデルの数
+let water,plane,crowd;
 
 const mtls = [];
 const objs = [];
+let manager;
 
 let pane;
 let firstCol = "rgb(222,222,222)";
@@ -29,13 +31,19 @@ let firstCol = "rgb(222,222,222)";
 var viewMode = 1;
 let visible = false;
 
+let firstPosition = new THREE.Vector3(-3800, 0, 38700);
+
 const PARAMS = {
   backgroundColor: { r: 222, g: 222, b: 222 },
   CamRotationX: .0,
   CamRotationY: .0,
   CamRotationZ: .0,
+  CamPositionX: .0,
+  CamPositionY: .0,
+  CamPositionZ: .0,
   moveSpeed: 4,
   viewMode: 1,
+  waterHeight: 5,
 };
 
 export class Canvas {
@@ -51,7 +59,7 @@ export class Canvas {
     //camera
     camera = new THREE.PerspectiveCamera(95, window.innerWidth / window.innerHeight, 0.1, 2000);
     camera.rotation.set(0, Math.PI / 2, Math.PI / 2);
-    camera.position.set(-3800, 7, 38700);
+    camera.position.set(firstPosition.x, 7, firstPosition.z);
     camera.scale.set(0.5,0.5,0.5);
 
     // scene
@@ -71,13 +79,13 @@ export class Canvas {
     map1.wrapS = THREE.RepeatWrapping;
     map1.wrapT = THREE.RepeatWrapping;
     map1.repeat.set(100, 100);
-    var geometry = new THREE.PlaneBufferGeometry( 5000, 5000, 1000,1000 );
-    var plane = new THREE.Mesh(
+    var geometry = new THREE.PlaneBufferGeometry( 2000, 2000, 1000,1000 );
+    plane = new THREE.Mesh(
       geometry,
       new THREE.MeshLambertMaterial( { map: map1 } )
     );
     plane.rotation.x = Math.PI / -2;
-    plane.position.set(-3800, 4, 38700);
+    plane.position.set(-3800, 0, 38700);
     var simplexNoise = new SimplexNoise;
     for (var i = 0; i < geometry.attributes.position.count; i++ ) {
       geometry.attributes.position.setZ( i , simplexNoise.noise( geometry.attributes.position.getX(i) / 2, geometry.attributes.position.getY(i) / 20 ));
@@ -87,7 +95,7 @@ export class Canvas {
     scene.add(plane);
 
     //Water
-    const waterGeometry = new THREE.PlaneBufferGeometry( 5000, 5000, 1000,1000 );   
+    const waterGeometry = new THREE.PlaneBufferGeometry( 2000, 2000, 1000,1000 );   
     water = new Water(
         waterGeometry,
         {
@@ -96,25 +104,33 @@ export class Canvas {
             waterNormals: new THREE.TextureLoader().load( './Canvas/Water_1_M_Normal.jpg', function(texture){
                 texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
             } ),
-            alpha: 1,
+            alpha: .8,
             waterColor: 0x3e89ce,
             distortionScale: 1.3,
+            side: THREE.DoubleSide,
+            transparent: true,
             fog:scene.fog !== undefined,
         }
     );
-    scene.add(water);
     water.rotation.x = - Math.PI / 2;
-    water.position.set(-3800, 5, 38700);
+    water.position.set(firstPosition.x, 5, firstPosition.z);
+    scene.add(water);
     
-    //makeCrowd
+    //Crowd
     var map2 = THREE.ImageUtils.loadTexture( './Canvas/crowd.png' );
-    var geometry_2 = new THREE.PlaneBufferGeometry( 1000, 1000, 1,1 );
-    var crowd = new THREE.Mesh(
-      geometry_2,
-      new THREE.MeshLambertMaterial( { map: map2,side: THREE.DoubleSide,opacity: 0.5,transparent: true, } )
+    map2.wrapS = THREE.RepeatWrapping;
+    map2.wrapT = THREE.RepeatWrapping;
+    map2.repeat.set(2, 3);
+    crowd = new THREE.Mesh(
+      new THREE.SphereGeometry(1000, 20, 20), // 形状     
+      new THREE.MeshLambertMaterial({ // 材質     
+       map: map2,
+       transparent: true,
+       opacity: 0.7,
+       side: THREE.DoubleSide // 裏からも見えるようにする                         
+      })
     );
-    crowd.rotation.x = Math.PI / 2;
-    crowd.position.set(-3800, 100, 38700);
+    crowd.position.set(firstPosition.x,0, firstPosition.z);
     scene.add(crowd);
   
     // model
@@ -125,11 +141,13 @@ export class Canvas {
       }
     };
     const onError = function () { };
-    const manager = new THREE.LoadingManager();
+    manager = new THREE.LoadingManager();
     manager.addHandler(/\.dds$/i, new DDSLoader());
     // OBJ & MTL
-    this.modelsetup_2(onProgress, onError);
-
+    // this.modelsetup_1(onProgress, onError);
+    (async ()=>{
+      await this.modelsetup_1(onProgress, onError);
+    }).call();
     //-----------------Renderer
     renderer = new THREE.WebGLRenderer({ alpha: true });
     renderer.autoClear = true;
@@ -170,38 +188,39 @@ export class Canvas {
       document.body.style.background = colString;
       // scene.fog = new THREE.Fog(color, 0.015, 1000);
       viewMode = PARAMS.viewMode;
+      water.position.y = PARAMS.waterHeight;
     });
-
-    // scene.traverse((obj3d) => {
-    //   if(obj3d.material){
-    //     obj3d.material.wireframe = true;
-    //   }else{
-    //   }
-    //   if(Array.isArray(obj3d.material)){
-    //     obj3d.material.forEach(function(mat, idx){
-    //       mat.wireframe = true;
-    //       console.log("awake3");
-    //     });
-    //   }
-    // });
 
     animate();
   }
 
   guisetup(pane) {
     // pane.addInput(PARAMS, 'backgroundColor');
-    pane.addInput(PARAMS, 'backgroundColor', {
+    const f2 = pane.addFolder({
+      title: 'ambientSetting',
+      expanded: false,
+    });
+    f2.addInput(PARAMS, 'backgroundColor', {
       input: 'color',
     });
-    pane.addInput(PARAMS, 'viewMode', {
+    f2.addInput(PARAMS, 'waterHeight', {
+      min: 1,
+      max: 20,
+    });
+    const f3 = pane.addFolder({
+      title: 'viewSetting',
+      expanded: false,
+    });
+    f3.addInput(PARAMS, 'viewMode', {
       options: {
         HumanView: 1,
         FlyView: 2,
       },
     });
-    pane.addInput(PARAMS, 'moveSpeed');
+    f3.addInput(PARAMS, 'moveSpeed');
     const f1 = pane.addFolder({
-      title: 'CameraSetting',
+      title: 'CameraValue',
+      expanded: false,
     });
     f1.addMonitor(PARAMS, 'CamRotationX', {
       title: 'Number',
@@ -212,50 +231,27 @@ export class Canvas {
     f1.addMonitor(PARAMS, 'CamRotationZ', {
       title: 'Number',
     });
+    f1.addMonitor(PARAMS, 'CamPositionX', {
+      title: 'Number',
+    });
+    f1.addMonitor(PARAMS, 'CamPositionY', {
+      title: 'Number',
+    });
+    f1.addMonitor(PARAMS, 'CamPositionZ', {
+      title: 'Number',
+    });
   }
-
-  modelsetup_1(onProgress, onError) {
-    // const wrap = new THREE.Object3D();  
-    var mtlLoader = new MTLLoader();
-    for (var i = 0; i < modelNum; i++) {
-      objs[i] = new THREE.Object3D(); 
-      var pathString = './models/obj/pla/' + String(i) + '/';
-      mtlLoader.setPath(pathString);              // this/is/obj/path/
-      mtlLoader.load('materials.mtl', function (materials) {
-        materials.preload();
-        var objLoader = new OBJLoader();
-        // objLoader.setMaterials(materials);
-        objLoader.setPath(pathString);            // this/is/obj/path/
-        objLoader.load('obj.obj', function (object) {
-          object.opacity = 1;
-          object.visibility = true;
-          object.scale.set(1, 1, 1);
-          object.position.set(0, 0, 0);
-          object.rotation.set(-Math.PI / 2, 0, 0);
-          // wrap.add(object);
-          // scene.add(object);                       // sceneに追加
-        }, onProgress, onError);
-      });
-      scene.add(objs[i]);
-      // console.log(objs[i].rotation.x);
-    }
-    // scene.add(wrap);
-  }
-
-  modelsetup_1(onProgress, onError) {
-    // const wrap = new THREE.Object3D();  
+  async modelsetup_1(onProgress, onError) {
+    const wrap = new THREE.Object3D();  
     // var mtlLoader = new MTLLoader();
+    var objLoader = new OBJLoader();
+    
     for (var i = 0; i < modelNum; i++) {
       // objs[i] = new THREE.Object3D(); 
       var pathString = './models/obj/pla/' + String(i) + '/';
       // mtlLoader.setPath(pathString);              // this/is/obj/path/
       // mtlLoader.load('materials.mtl', function (materials) {
         // materials.preload();
-        var objLoader = new OBJLoader();
-        var mtl = new THREE.MeshPhongMaterial({                                      
-          color: 0x990000, //球の色
-          wireframe: true //ワイヤーフレーム有効
-        });
         // objLoader.setMaterials(materials);
         objLoader.setPath(pathString);            // this/is/obj/path/
         objLoader.load('obj.obj', function (object) {
@@ -264,14 +260,14 @@ export class Canvas {
           object.scale.set(1, 1, 1);
           object.position.set(0, 0, 0);
           object.rotation.set(-Math.PI / 2, 0, 0);
-          // wrap.add(object);
-          scene.add(object);                       // sceneに追加
+          wrap.add(object);
+          // scene.add(object);                       // sceneに追加
         }, onProgress, onError);
       // });
       // scene.add(objs[i]);
       // console.log(objs[i].rotation.x);
     }
-    // scene.add(wrap);
+    scene.add(wrap);
   }
 
   modelsetup_2(onProgress, onError) {
@@ -311,6 +307,7 @@ export class Canvas {
         // object.position.set(11200,50900,-30);
         object.position.set(0, 0, 0);
         object.rotation.set(-Math.PI / 2, 0, 0);
+        object.material.wireframe = true;
         scene.add(object);                       // sceneに追加
       }, onProgress, onError);
     });
@@ -331,6 +328,7 @@ export class Canvas {
         // object.position.set(11200,50900,-30);
         object.position.set(0, 0, 0);
         object.rotation.set(-Math.PI / 2, 0, 0);
+        object.material.wireframe = true;
         scene.add(object);                       // sceneに追加
       }, onProgress, onError);
     });
@@ -352,6 +350,7 @@ export class Canvas {
         // object.position.set(11200,50900,-30);
         object.position.set(0, 0, 0);
         object.rotation.set(-Math.PI / 2, 0, 0);
+        object.material.wireframe = true;
         scene.add(object);                       // sceneに追加
       }, onProgress, onError);
     });
@@ -368,6 +367,17 @@ function render() {
   PARAMS.CamRotationX = camera.rotation.x;
   PARAMS.CamRotationY = camera.rotation.y;
   PARAMS.CamRotationZ = camera.rotation.z;
+  PARAMS.CamPositionX = -firstPosition.x + camera.position.x;
+  PARAMS.CamPositionY = -firstPosition.y + camera.position.y;
+  PARAMS.CamPositionZ = -firstPosition.z + camera.position.z;
+  water.position.set(camera.position.x, 5, camera.position.z);
+  plane.position.set(camera.position.x, 0, camera.position.z);
+  crowd.position.set(camera.position.x, 0, camera.position.z);
+  // crowd.rotation.z += 0.001;
+  crowd.rotation.z += Math.random() * 0.0005;
+  crowd.rotation.x += Math.random() * 0.0005 - 0.001;
+  console.log("crowd.rotation.z :" + crowd.rotation.z );
+  console.log("crowd.rotation.x :" + crowd.rotation.x );
   if (isClick) {
     controls.activeLook = true;
   } else {
@@ -379,6 +389,12 @@ function render() {
   }
   if(viewMode == 1){
     camera.position.y = 8;
+  }else if(viewMode == 2){
+    if(camera.position.y < 0.5){//最低値
+      camera.position.y = 0.5;
+    }else if(camera.position.y > 60){//最高値
+      camera.position.y = 60;
+    }
   }
   renderer.render(scene, camera);
 }

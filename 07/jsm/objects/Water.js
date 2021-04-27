@@ -45,7 +45,7 @@ var Water = function ( geometry, options ) {
 	var distortionScale = options.distortionScale !== undefined ? options.distortionScale : 20.0;
 	var side = options.side !== undefined ? options.side : FrontSide;
 	var fog = options.fog !== undefined ? options.fog : false;
-
+	var transparent = options.transparent !== undefined ? options.transparent : true;
 	//
 
 	var mirrorPlane = new Plane();
@@ -94,6 +94,7 @@ var Water = function ( geometry, options ) {
 				'sunColor': { value: new Color( 0x7F7F7F ) },
 				'sunDirection': { value: new Vector3( 0.70707, 0.70707, 0 ) },
 				'eye': { value: new Vector3() },
+				'transparent':{ value: true },
 				'waterColor': { value: new Color( 0x555555 ) }
 			}
 		] ),
@@ -207,6 +208,7 @@ var Water = function ( geometry, options ) {
 		uniforms: UniformsUtils.clone( mirrorShader.uniforms ),
 		lights: true,
 		side: side,
+		transparent:true,
 		fog: fog
 	} );
 
@@ -219,6 +221,7 @@ var Water = function ( geometry, options ) {
 	material.uniforms[ 'waterColor' ].value = waterColor;
 	material.uniforms[ 'sunDirection' ].value = sunDirection;
 	material.uniforms[ 'distortionScale' ].value = distortionScale;
+	material.uniforms[ 'transparent' ].value = transparent;
 
 	material.uniforms[ 'eye' ].value = eye;
 
