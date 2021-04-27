@@ -95,12 +95,12 @@ export class Canvas {
     scene.add(plane);
 
     //Water
-    const waterGeometry = new THREE.PlaneBufferGeometry( 2000, 2000, 1000,1000 );   
+    const waterGeometry = new THREE.PlaneBufferGeometry( 2000, 2000, 10,10 );   
     water = new Water(
         waterGeometry,
         {
-            textureWidth: 1024,
-            textureHeight: 1024,
+            textureWidth: 512,
+            textureHeight: 512,
             waterNormals: new THREE.TextureLoader().load( './Canvas/Water_1_M_Normal.jpg', function(texture){
                 texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
             } ),
@@ -122,7 +122,7 @@ export class Canvas {
     map2.wrapT = THREE.RepeatWrapping;
     map2.repeat.set(2, 3);
     crowd = new THREE.Mesh(
-      new THREE.SphereGeometry(1000, 20, 20), // 形状     
+      new THREE.SphereGeometry(1000, 10, 10), // 形状     
       new THREE.MeshLambertMaterial({ // 材質     
        map: map2,
        transparent: true,
@@ -370,14 +370,12 @@ function render() {
   PARAMS.CamPositionX = -firstPosition.x + camera.position.x;
   PARAMS.CamPositionY = -firstPosition.y + camera.position.y;
   PARAMS.CamPositionZ = -firstPosition.z + camera.position.z;
-  water.position.set(camera.position.x, 5, camera.position.z);
+  water.position.set(camera.position.x, PARAMS.waterHeight, camera.position.z);
   plane.position.set(camera.position.x, 0, camera.position.z);
   crowd.position.set(camera.position.x, 0, camera.position.z);
   // crowd.rotation.z += 0.001;
   crowd.rotation.z += Math.random() * 0.0005;
   crowd.rotation.x += Math.random() * 0.0005 - 0.001;
-  console.log("crowd.rotation.z :" + crowd.rotation.z );
-  console.log("crowd.rotation.x :" + crowd.rotation.x );
   if (isClick) {
     controls.activeLook = true;
   } else {
