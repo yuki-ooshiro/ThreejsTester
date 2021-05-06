@@ -1,0 +1,145 @@
+# Created with FME Version: FME(R) 2020.2.0.0 20201027 - Build 20787 - WIN64
+newmtl tysu1788
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1788.png
+
+newmtl tysu1074
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1074.png
+
+newmtl tysu1073
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1073.png
+
+newmtl tysu1055
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1055.png
+
+newmtl tysu1088
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1088.png
+
+newmtl tysu1056
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1056.png
+
+newmtl tysu1075
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1075.png
+
+newmtl tbfc02828
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tbfc02828.png
+
+newmtl tysu1786
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1786.png
+
+newmtl tysu1785
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1785.png
+
+newmtl tbfc01925
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tbfc01925.png
+
+newmtl tysu0975
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0975.png
+
+newmtl tbfc01929
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tbfc01929.png
+
+newmtl tbfc01932
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tbfc01932.png
+
+newmtl tysu1091
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1091.png
+
+newmtl tbfc00987
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tbfc00987.png
+
+newmtl tbfc01945
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tbfc01945.png
+
+newmtl tysu1072
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1072.png
+
+newmtl tysu1037
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1037.png
+
+newmtl tbfc02648
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tbfc02648.png
+
+newmtl tysu1093
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1093.png
+
+newmtl tysu1038
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1038.png
+
+newmtl tysu2041
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu2041.png
+
+newmtl tysu1082
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1082.png
+
+newmtl tbfc01953
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tbfc01953.png
+
+newmtl tysu0976
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0976.png
+
+newmtl tysu0968
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0968.png
+
+newmtl tbfc01924
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tbfc01924.png
+
+newmtl tysu1080
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1080.png
+
+newmtl tysu1046
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1046.png
+
+newmtl tysu2032
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu2032.png
+
+newmtl tbfc02825
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tbfc02825.png
+
+newmtl tysu0977
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0977.png
+
+newmtl tysu1090
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1090.png
+
+newmtl tysu1059
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1059.png
+
+newmtl tbfc01958
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tbfc01958.png
+

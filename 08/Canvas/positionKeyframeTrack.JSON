@@ -1,0 +1,6 @@
+var positionKeyframeTrackJSON = {
+    name: ".position",
+    type: "vector",
+    times: [0, 1, 2],
+    values: [0, 0, 0, 2, 1, 15, 0, 0, 0]
+}
