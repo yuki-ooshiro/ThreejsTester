@@ -184,14 +184,10 @@ export class Canvas {
 
         action.play()
         renderer.xr.enabled = true;
-        // document.body.appendChild(renderer.domElement);
-        // document.body.appendChild(VRButton.createButton(renderer));
+        document.body.appendChild(renderer.domElement);
+        document.body.appendChild(VRButton.createButton(renderer));
 
-        // animate();
         renderer.setAnimationLoop(animate);
-        // renderer.setAnimationLoop(function() {
-        //     renderer.render(scene, cameraContainer);
-        // });
     }
 
     cameraSetup() {

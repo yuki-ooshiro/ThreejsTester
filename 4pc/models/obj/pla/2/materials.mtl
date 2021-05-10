@@ -1,0 +1,65 @@
+# Created with FME Version: FME(R) 2020.2.0.0 20201027 - Build 20787 - WIN64
+newmtl tysu0135
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0135.png
+
+newmtl tysu0505
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0505.png
+
+newmtl tysu0500
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0500.png
+
+newmtl tysu2077
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu2077.png
+
+newmtl tysu1737
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1737.png
+
+newmtl tysu1921
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1921.png
+
+newmtl tysu1952
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1952.png
+
+newmtl tysu0511
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0511.png
+
+newmtl tysu2103
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu2103.png
+
+newmtl tysu1922
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1922.png
+
+newmtl tysu0124
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0124.png
+
+newmtl tysu1923
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1923.png
+
+newmtl tysu0132
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0132.png
+
+newmtl tysu2102
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu2102.png
+
+newmtl tysu0133
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu0133.png
+
+newmtl tysu1953
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1953.png
+
