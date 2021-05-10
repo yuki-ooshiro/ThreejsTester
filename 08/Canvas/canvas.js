@@ -188,6 +188,9 @@ export class Canvas {
         document.body.appendChild(VRButton.createButton(renderer));
         // animate();
         renderer.setAnimationLoop(animate);
+        // renderer.setAnimationLoop(function() {
+        //     renderer.render(scene, camera);
+        // });
     }
 
     cameraSetup() {
@@ -321,6 +324,7 @@ export class Canvas {
 function animate() {
     // requestAnimationFrame(animate);
     // renderer.setAnimationLoop(function() { renderer.render(scene, camera); });
+    renderer.render(scene, camera);
     if (PARAMS.viewMode == 1 || PARAMS.viewMode == 2) {
         controls.update(clock.getDelta());
     } else {
