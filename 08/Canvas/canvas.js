@@ -31,7 +31,7 @@ let preCamPos = new THREE.Vector3(-3800, 7, 38700);
 let pane;
 let firstCol = "rgb(222,222,222)";
 
-var viewMode = 1; //1:Human 2:Fly 3:Auto
+var viewMode = 3; //1:Human 2:Fly 3:Auto
 
 let firstPosition = new THREE.Vector3(-3800, 0, 38700);
 
@@ -44,7 +44,7 @@ const PARAMS = {
     CamPositionY: .0,
     CamPositionZ: .0,
     moveSpeed: 4,
-    viewMode: 1,
+    viewMode: 3,
     waterHeight: 5,
     waterAlpha: 0.8,
 };
@@ -88,8 +88,6 @@ export class Canvas {
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.setSize(window.innerWidth, window.innerHeight);
         container.appendChild(renderer.domElement);
-
-
 
         this.fpCtlSetup();
         const pane = new Tweakpane();
@@ -186,8 +184,8 @@ export class Canvas {
 
         action.play()
         renderer.xr.enabled = true;
-        document.body.appendChild(renderer.domElement);
-        document.body.appendChild(VRButton.createButton(renderer));
+        // document.body.appendChild(renderer.domElement);
+        // document.body.appendChild(VRButton.createButton(renderer));
 
         // animate();
         renderer.setAnimationLoop(animate);
@@ -200,7 +198,7 @@ export class Canvas {
         cameraContainer = new THREE.Object3D();
         camera = new THREE.PerspectiveCamera(95, window.innerWidth / window.innerHeight, 0.1, 2000);
         cameraContainer.add(camera);
-        cameraContainer.rotation.set(0, Math.PI / 2, Math.PI / 2);
+        // cameraContainer.rotation.set(0, Math.PI / 2, Math.PI / 2);
         cameraContainer.position.set(firstPosition.x, 7, firstPosition.z);
         cameraContainer.scale.set(0.5, 0.5, 0.5);
 
@@ -211,8 +209,8 @@ export class Canvas {
         ambientLight.position.set(-3800, 50, 38700);
         // ambientLight.castShadow = true;
         scene.add(ambientLight);
-        const pointLight = new THREE.PointLight(0xffffff, 0.2);
-        cameraContainer.add(pointLight);
+        // const pointLight = new THREE.PointLight(0xffffff, 0.2);
+        // cameraContainer.add(pointLight);
         scene.add(cameraContainer);
         scene.fog = new THREE.Fog(0xdedede, 0.015, 1000);
     }
