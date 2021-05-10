@@ -49,8 +49,6 @@ const PARAMS = {
     waterAlpha: 0.8,
 };
 
-document.body.appendChild(VRButton.createButton(renderer));
-
 export class Canvas {
     constructor() {
         const container = document.createElement('div');
@@ -186,7 +184,10 @@ export class Canvas {
 
         action.play()
         renderer.xr.enabled = true;
-        animate();
+        document.body.appendChild(renderer.domElement);
+        document.body.appendChild(VRButton.createButton(renderer));
+        // animate();
+        renderer.setAnimationLoop(animate);
     }
 
     cameraSetup() {
@@ -318,7 +319,7 @@ export class Canvas {
 };
 
 function animate() {
-    requestAnimationFrame(animate);
+    // requestAnimationFrame(animate);
     // renderer.setAnimationLoop(function() { renderer.render(scene, camera); });
     if (PARAMS.viewMode == 1 || PARAMS.viewMode == 2) {
         controls.update(clock.getDelta());
