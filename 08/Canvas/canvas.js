@@ -7,7 +7,7 @@ import { Water } from '../jsm/objects/Water.js';
 import { VRButton } from '../jsm/webxr/VRButton.js';
 // import { FirstPersonControls } from 'https://unpkg.com/three@0.126.1/examples/jsm/controls/FirstPersonControls.js';
 
-let camera, scene, renderer, controls, mixer;
+let camera, cameraContainer, scene, renderer, controls, mixer;
 let manager;
 let loaded = false;
 const loading = document.querySelector('.loading');
@@ -88,6 +88,8 @@ export class Canvas {
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.setSize(window.innerWidth, window.innerHeight);
         container.appendChild(renderer.domElement);
+
+
 
         this.fpCtlSetup();
         const pane = new Tweakpane();
@@ -179,25 +181,29 @@ export class Canvas {
 
         var clip = THREE.AnimationClip.parse(clipJSON);
 
-        mixer = new THREE.AnimationMixer(camera);
+        mixer = new THREE.AnimationMixer(cameraContainer);
         var action = mixer.clipAction(clip);
 
         action.play()
         renderer.xr.enabled = true;
         document.body.appendChild(renderer.domElement);
         document.body.appendChild(VRButton.createButton(renderer));
+
         // animate();
         renderer.setAnimationLoop(animate);
         // renderer.setAnimationLoop(function() {
-        //     renderer.render(scene, camera);
+        //     renderer.render(scene, cameraContainer);
         // });
     }
 
     cameraSetup() {
+        cameraContainer = new THREE.Object3D();
         camera = new THREE.PerspectiveCamera(95, window.innerWidth / window.innerHeight, 0.1, 2000);
-        camera.rotation.set(0, Math.PI / 2, Math.PI / 2);
-        camera.position.set(firstPosition.x, 7, firstPosition.z);
-        camera.scale.set(0.5, 0.5, 0.5);
+        cameraContainer.add(camera);
+        cameraContainer.rotation.set(0, Math.PI / 2, Math.PI / 2);
+        cameraContainer.position.set(firstPosition.x, 7, firstPosition.z);
+        cameraContainer.scale.set(0.5, 0.5, 0.5);
+
     }
     sceneSetup() {
         scene = new THREE.Scene();
@@ -206,8 +212,8 @@ export class Canvas {
         // ambientLight.castShadow = true;
         scene.add(ambientLight);
         const pointLight = new THREE.PointLight(0xffffff, 0.2);
-        camera.add(pointLight);
-        scene.add(camera);
+        cameraContainer.add(pointLight);
+        scene.add(cameraContainer);
         scene.fog = new THREE.Fog(0xdedede, 0.015, 1000);
     }
     ambientSetup() {
@@ -282,7 +288,7 @@ export class Canvas {
             options: { HumanView: 1, FlyView: 2, AutoView: 3, },
         });
         f3.addInput(PARAMS, 'moveSpeed');
-        const f1 = pane.addFolder({ title: 'CameraValue', expanded: false, });
+        const f1 = pane.addFolder({ title: 'cameraContainerValue', expanded: false, });
         f1.addMonitor(PARAMS, 'CamRotationX', { title: 'Number', });
         f1.addMonitor(PARAMS, 'CamRotationY', { title: 'Number', });
         f1.addMonitor(PARAMS, 'CamRotationZ', { title: 'Number', });
@@ -292,7 +298,7 @@ export class Canvas {
     }
     fpCtlSetup() {
         //--------------FirstPersonControls---------
-        controls = new FirstPersonControls(camera, renderer.domElement);
+        controls = new FirstPersonControls(cameraContainer, renderer.domElement);
         controls.lookSpeed = 0.05;
         controls.movementSpeed = 4;
         controls.noFly = true;
@@ -323,24 +329,24 @@ export class Canvas {
 
 function animate() {
     // requestAnimationFrame(animate);
-    // renderer.setAnimationLoop(function() { renderer.render(scene, camera); });
+    // renderer.setAnimationLoop(function() { renderer.render(scene, cameraContainer); });
     renderer.render(scene, camera);
     if (PARAMS.viewMode == 1 || PARAMS.viewMode == 2) {
         controls.update(clock.getDelta());
     } else {
         mixer.update(0.01)
     }
-    if (preCamPos.x != camera.position.x || preCamPos.y != camera.position.y || preCamPos.z != camera.position.z) calPlane();
-    preCamPos.x = camera.position.x;
-    preCamPos.y = camera.position.y;
-    preCamPos.z = camera.position.z;
+    if (preCamPos.x != cameraContainer.position.x || preCamPos.y != cameraContainer.position.y || preCamPos.z != cameraContainer.position.z) calPlane();
+    preCamPos.x = cameraContainer.position.x;
+    preCamPos.y = cameraContainer.position.y;
+    preCamPos.z = cameraContainer.position.z;
 
     render();
 }
 
 function calPlane() {
-    map1.offset.x -= (preCamPos.x - camera.position.x) * 0.2;
-    map1.offset.y += (preCamPos.z - camera.position.z) * 0.2;
+    map1.offset.x -= (preCamPos.x - cameraContainer.position.x) * 0.2;
+    map1.offset.y += (preCamPos.z - cameraContainer.position.z) * 0.2;
 }
 
 
@@ -349,15 +355,15 @@ function render() {
 
     }
     water.material.uniforms['time'].value += 1.0 / 60.0;
-    PARAMS.CamRotationX = camera.rotation.x;
-    PARAMS.CamRotationY = camera.rotation.y;
-    PARAMS.CamRotationZ = camera.rotation.z;
-    PARAMS.CamPositionX = -firstPosition.x + camera.position.x;
-    PARAMS.CamPositionY = -firstPosition.y + camera.position.y;
-    PARAMS.CamPositionZ = -firstPosition.z + camera.position.z;
-    water.position.set(camera.position.x, PARAMS.waterHeight, camera.position.z);
-    plane.position.set(camera.position.x, 0, camera.position.z);
-    crowd.position.set(camera.position.x, 0, camera.position.z);
+    PARAMS.CamRotationX = cameraContainer.rotation.x;
+    PARAMS.CamRotationY = cameraContainer.rotation.y;
+    PARAMS.CamRotationZ = cameraContainer.rotation.z;
+    PARAMS.CamPositionX = -firstPosition.x + cameraContainer.position.x;
+    PARAMS.CamPositionY = -firstPosition.y + cameraContainer.position.y;
+    PARAMS.CamPositionZ = -firstPosition.z + cameraContainer.position.z;
+    water.position.set(cameraContainer.position.x, PARAMS.waterHeight, cameraContainer.position.z);
+    plane.position.set(cameraContainer.position.x, 0, cameraContainer.position.z);
+    crowd.position.set(cameraContainer.position.x, 0, cameraContainer.position.z);
     crowd.rotation.z += Math.random() * 0.0005;
     crowd.rotation.x += Math.random() * 0.0005 - 0.001;
     if (isClick) {
@@ -370,12 +376,12 @@ function render() {
         }
     }
     if (viewMode == 1) {
-        camera.position.y = 8;
+        cameraContainer.position.y = 8;
     } else if (viewMode == 2) {
-        if (camera.position.y < 0.5) { //最低値
-            camera.position.y = 0.5;
-        } else if (camera.position.y > 60) { //最高値
-            camera.position.y = 60;
+        if (cameraContainer.position.y < 0.5) { //最低値
+            cameraContainer.position.y = 0.5;
+        } else if (cameraContainer.position.y > 60) { //最高値
+            cameraContainer.position.y = 60;
         }
     }
     renderer.render(scene, camera);
