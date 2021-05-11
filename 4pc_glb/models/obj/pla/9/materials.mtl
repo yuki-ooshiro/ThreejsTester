@@ -1,0 +1,29 @@
+# Created with FME Version: FME(R) 2020.2.0.0 20201027 - Build 20787 - WIN64
+newmtl tysu1790
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1790.png
+
+newmtl tysu1789
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1789.png
+
+newmtl tysu1057
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1057.png
+
+newmtl tysu1102
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1102.png
+
+newmtl tysu1065
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1065.png
+
+newmtl tysu1064
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1064.png
+
+newmtl tysu1066
+Ks 0.333333 0.333333 0.333333
+map_Kd .\materials_textures\tysu1066.png
+

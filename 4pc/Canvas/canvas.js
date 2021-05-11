@@ -5,6 +5,7 @@ import { MTLLoader } from 'https://unpkg.com/three@0.126.1/examples/jsm/loaders/
 import { DDSLoader } from 'https://unpkg.com/three@0.126.1/examples/jsm/loaders/DDSLoader.js';
 import { Water } from '../jsm/objects/Water.js';
 import { VRButton } from '../jsm/webxr/VRButton.js';
+import Stats from '../jsm/libs/stats.module.js';
 
 let camera, cameraContainer, scene, renderer, controls, mixer;
 let manager;
@@ -29,6 +30,8 @@ let preCamPos = new THREE.Vector3(-3800, 7, 38700);
 
 let pane;
 let firstCol = "rgb(222,222,222)";
+let cameraFolder;
+let stats;
 
 var viewMode = 3; //1:Human 2:Fly 3:Auto
 
@@ -179,6 +182,9 @@ export class Canvas {
         // document.body.appendChild(VRButton.createButton(renderer));
 
         // animate();
+        stats = new Stats();
+        stats.showPanel(0);
+        document.body.appendChild(stats.dom);
         renderer.setAnimationLoop(animate);
     }
 
@@ -188,7 +194,6 @@ export class Canvas {
         cameraContainer.add(camera);
         cameraContainer.position.set(firstPosition.x, 7, firstPosition.z);
         cameraContainer.scale.set(0.5, 0.5, 0.5);
-
     }
     sceneSetup() {
         scene = new THREE.Scene();
@@ -271,13 +276,13 @@ export class Canvas {
             options: { HumanView: 1, FlyView: 2, AutoView: 3, },
         });
         f3.addInput(PARAMS, 'walkSpeed');
-        const f1 = pane.addFolder({ title: 'cameraContainerValue', expanded: false, });
-        f1.addMonitor(PARAMS, 'CamRotationX', { title: 'Number', });
-        f1.addMonitor(PARAMS, 'CamRotationY', { title: 'Number', });
-        f1.addMonitor(PARAMS, 'CamRotationZ', { title: 'Number', });
-        f1.addMonitor(PARAMS, 'CamPositionX', { title: 'Number', });
-        f1.addMonitor(PARAMS, 'CamPositionY', { title: 'Number', });
-        f1.addMonitor(PARAMS, 'CamPositionZ', { title: 'Number', });
+        cameraFolder = pane.addFolder({ title: 'cameraContainerValue', expanded: false, });
+        cameraFolder.addMonitor(PARAMS, 'CamRotationX', { title: 'Number', });
+        cameraFolder.addMonitor(PARAMS, 'CamRotationY', { title: 'Number', });
+        cameraFolder.addMonitor(PARAMS, 'CamRotationZ', { title: 'Number', });
+        cameraFolder.addMonitor(PARAMS, 'CamPositionX', { title: 'Number', });
+        cameraFolder.addMonitor(PARAMS, 'CamPositionY', { title: 'Number', });
+        cameraFolder.addMonitor(PARAMS, 'CamPositionZ', { title: 'Number', });
     }
     fpCtlSetup() {
         //--------------FirstPersonControls---------
@@ -317,7 +322,7 @@ function animate() {
     if (PARAMS.viewMode == 1 || PARAMS.viewMode == 2) {
         controls.update(clock.getDelta());
     } else {
-        mixer.update(0.01)
+        mixer.update(clock.getDelta());
     }
     if (preCamPos.x != cameraContainer.position.x || preCamPos.y != cameraContainer.position.y || preCamPos.z != cameraContainer.position.z) calPlane();
     preCamPos.x = cameraContainer.position.x;
@@ -340,16 +345,20 @@ function calPlane() {
 
 
 function render() {
+    stats.begin();
     if (!loaded) {
 
     }
-    water.material.uniforms['time'].value += 1.0 / 60.0;
-    PARAMS.CamRotationX = cameraContainer.rotation.x;
-    PARAMS.CamRotationY = cameraContainer.rotation.y;
-    PARAMS.CamRotationZ = cameraContainer.rotation.z;
-    PARAMS.CamPositionX = -firstPosition.x + cameraContainer.position.x;
-    PARAMS.CamPositionY = -firstPosition.y + cameraContainer.position.y;
-    PARAMS.CamPositionZ = -firstPosition.z + cameraContainer.position.z;
+    water.material.uniforms['time'].value += clock.getDelta() / 60.0;
+    if (cameraFolder.expanded) {
+        PARAMS.CamRotationX = cameraContainer.rotation.x;
+        PARAMS.CamRotationY = cameraContainer.rotation.y;
+        PARAMS.CamRotationZ = cameraContainer.rotation.z;
+        PARAMS.CamPositionX = -firstPosition.x + cameraContainer.position.x;
+        PARAMS.CamPositionY = -firstPosition.y + cameraContainer.position.y;
+        PARAMS.CamPositionZ = -firstPosition.z + cameraContainer.position.z;
+    }
+
     water.position.set(cameraContainer.position.x, PARAMS.waterHeight, cameraContainer.position.z);
     plane.position.set(cameraContainer.position.x, 0, cameraContainer.position.z);
     crowd.position.set(cameraContainer.position.x, 0, cameraContainer.position.z);
@@ -373,6 +382,7 @@ function render() {
             cameraContainer.position.y = 60;
         }
     }
+    stats.end();
     renderer.render(scene, camera);
 }
 
