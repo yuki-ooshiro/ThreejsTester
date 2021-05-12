@@ -4,6 +4,7 @@ import { GLTFLoader } from 'https://unpkg.com/three@0.126.1/examples/jsm/loaders
 import { DDSLoader } from 'https://unpkg.com/three@0.126.1/examples/jsm/loaders/DDSLoader.js';
 import { Water } from '../jsm/objects/Water.js';
 import { VRButton } from '../jsm/webxr/VRButton.js';
+import Stats from '../jsm/libs/stats.module.js';
 
 let camera, cameraContainer, scene, renderer, controls, mixer;
 let manager;
@@ -21,7 +22,7 @@ let isClick = false;
 let cliclFadeTime = 15;
 let cliclFade = cliclFadeTime;
 
-let modelNum = 1;
+let modelNum = 12;
 let models = [];
 let water, crowd, plane, plane2, map1;
 let preCamPos = new THREE.Vector3(-3800, 7, 38700);
@@ -30,6 +31,7 @@ let pane;
 let firstCol = "rgb(222,222,222)";
 
 var viewMode = 3; //1:Human 2:Fly 3:Auto
+let stats;
 
 let firstPosition = new THREE.Vector3(-3800, 0, 38700);
 
@@ -66,20 +68,20 @@ export class Canvas {
         //   var pathString = './models/obj/pla/' + String(i) + '/';
         //   ps[i] = this.loadModel(pathString).then(result => {  models[i] = result; });
         // }
-        ps[0] = this.loadModel('./models/').then(result => { models[0] = result; });
-        // ps[0] = this.loadModel('./models/').then(result => { models[1] = result; });
-        // ps[0] = this.loadModel('./models/obj/pla/0/').then(result => { models[0] = result; });
-        // ps[1] = this.loadModel('./models/obj/pla/1/').then(result => { models[1] = result; });
-        // ps[2] = this.loadModel('./models/obj/pla/2/').then(result => { models[2] = result; });
-        // ps[3] = this.loadModel('./models/obj/pla/3/').then(result => { models[3] = result; });
-        // ps[4] = this.loadModel('./models/obj/pla/4/').then(result => { models[4] = result; });
-        // ps[5] = this.loadModel('./models/obj/pla/5/').then(result => { models[5] = result; });
-        // ps[6] = this.loadModel('./models/obj/pla/6/').then(result => { models[6] = result; });
-        // ps[7] = this.loadModel('./models/obj/pla/7/').then(result => { models[7] = result; });
-        // ps[8] = this.loadModel('./models/obj/pla/8/').then(result => { models[8] = result; });
-        // ps[9] = this.loadModel('./models/obj/pla/9/').then(result => { models[9] = result; });
-        // ps[10] = this.loadModel('./models/obj/pla/10/').then(result => { models[10] = result; });
-        // ps[11] = this.loadModel('./models/obj/pla/11/').then(result => { models[11] = result; });
+
+        // ps[0] = this.loadModel('./models/').then(result => { models[0] = result; });
+        ps[0] = this.loadModel('./models/glb/0/').then(result => { models[0] = result; });
+        ps[1] = this.loadModel('./models/glb/1/').then(result => { models[1] = result; });
+        ps[2] = this.loadModel('./models/glb/2/').then(result => { models[2] = result; });
+        ps[3] = this.loadModel('./models/glb/3/').then(result => { models[3] = result; });
+        ps[4] = this.loadModel('./models/glb/4/').then(result => { models[4] = result; });
+        ps[5] = this.loadModel('./models/glb/5/').then(result => { models[5] = result; });
+        ps[6] = this.loadModel('./models/glb/6/').then(result => { models[6] = result; });
+        ps[7] = this.loadModel('./models/glb/7/').then(result => { models[7] = result; });
+        ps[8] = this.loadModel('./models/glb/8/').then(result => { models[8] = result; });
+        ps[9] = this.loadModel('./models/glb/9/').then(result => { models[9] = result; });
+        ps[10] = this.loadModel('./models/glb/10/').then(result => { models[10] = result; });
+        ps[11] = this.loadModel('./models/glb/11/').then(result => { models[11] = result; });
 
         //-----------------Renderer
         renderer = new THREE.WebGLRenderer({ alpha: true });
@@ -99,14 +101,14 @@ export class Canvas {
         };
 
         Promise.all(ps).then(() => {
-            // for (var j = 0; j < modelNum; j++) {
-            //     models[j].position.set(0, 0, 0);
-            //     models[j].rotation.set(-Math.PI / 2, 0, 0);
-            //     scene.add(models[j]);
-            // }
-            models[0].position.set(0, 0, 0);
-            models[0].rotation.set(-Math.PI / 2, 0, 0);
-            scene.add(models[0]);
+            for (var j = 0; j < modelNum; j++) {
+                models[j].position.set(0, 0, 0);
+                models[j].rotation.set(-Math.PI / 2, 0, 0);
+                scene.add(models[j]);
+            }
+            // models[0].position.set(0, 0, 0);
+            // models[0].rotation.set(-Math.PI / 2, 0, 0);
+            // scene.add(models[0]);
             loaded = true;
             loading.classList.add('hide');
         });
@@ -179,6 +181,9 @@ export class Canvas {
 
         action.play();
         renderer.xr.enabled = true;
+        stats = new Stats();
+        stats.showPanel(0);
+        document.body.appendChild(stats.dom);
         // document.body.appendChild(renderer.domElement);
         // document.body.appendChild(VRButton.createButton(renderer));
 
@@ -261,9 +266,7 @@ export class Canvas {
         );
         crowd.position.set(firstPosition.x, 0, firstPosition.z);
         scene.add(crowd);
-
     }
-
     guiSetup(pane) {
         // pane.addInput(PARAMS, 'backgroundColor');
         const f2 = pane.addFolder({ title: 'ambientSetting', expanded: false, });
@@ -303,8 +306,8 @@ export class Canvas {
             var gltfLoader = new GLTFLoader(manager);
             gltfLoader.setPath(url);
             // gltfLoader.load('01.glb', resolve);
-            gltfLoader.load('01.glb', function(gltf) {
-                resolve = gltf.scene;
+            gltfLoader.load('obj.glb', function(gltf) {
+                resolve(gltf.scene);
             });
         });
     }
@@ -335,14 +338,13 @@ function calPlane() {
         map1.offset.x -= (preCamPos.x - cameraContainer.position.x) * 0.05;
         map1.offset.y += (preCamPos.z - cameraContainer.position.z) * 0.05;
     }
-
 }
 
-
 function render() {
-    if (!loaded) {
+    stats.begin();
+    // if (!loaded) {
 
-    }
+    // }
     water.material.uniforms['time'].value += 1.0 / 60.0;
     PARAMS.CamRotationX = cameraContainer.rotation.x;
     PARAMS.CamRotationY = cameraContainer.rotation.y;
@@ -373,6 +375,7 @@ function render() {
             cameraContainer.position.y = 60;
         }
     }
+    stats.end();
     renderer.render(scene, camera);
 }
 

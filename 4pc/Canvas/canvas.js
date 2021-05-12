@@ -1,11 +1,15 @@
 import * as THREE from 'https://unpkg.com/three@0.126.1/build/three.module.js';
 import { FirstPersonControls } from "https://threejs.org/examples/jsm/controls/FirstPersonControls.js";
-import { OBJLoader } from 'https://unpkg.com/three@0.126.1/examples/jsm/loaders/OBJLoader.js';
-import { MTLLoader } from 'https://unpkg.com/three@0.126.1/examples/jsm/loaders/MTLLoader.js';
+// import { OBJLoader } from 'https://unpkg.com/three@0.126.1/examples/jsm/loaders/OBJLoader.js';
+// import { MTLLoader } from 'https://unpkg.com/three@0.126.1/examples/jsm/loaders/MTLLoader.js';
+import { GLTFLoader } from 'https://unpkg.com/three@0.126.1/examples/jsm/loaders/GLTFLoader.js';
 import { DDSLoader } from 'https://unpkg.com/three@0.126.1/examples/jsm/loaders/DDSLoader.js';
 import { Water } from '../jsm/objects/Water.js';
 import { VRButton } from '../jsm/webxr/VRButton.js';
 import Stats from '../jsm/libs/stats.module.js';
+import { EffectComposer } from '../jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from '../jsm/postprocessing/RenderPass.js';
+import { NodePass } from '../jsm/nodes/postprocessing/NodePass.js';
 
 let camera, cameraContainer, scene, renderer, controls, mixer;
 let manager;
@@ -32,7 +36,7 @@ let pane;
 let firstCol = "rgb(222,222,222)";
 let cameraFolder;
 let stats;
-
+let composer, nodepass;
 var viewMode = 3; //1:Human 2:Fly 3:Auto
 
 let firstPosition = new THREE.Vector3(-3800, 0, 38700);
@@ -70,18 +74,18 @@ export class Canvas {
         //   var pathString = './models/obj/pla/' + String(i) + '/';
         //   ps[i] = this.loadModel(pathString).then(result => {  models[i] = result; });
         // }
-        ps[0] = this.loadModel('./models/obj/pla/0/').then(result => { models[0] = result; });
-        ps[1] = this.loadModel('./models/obj/pla/1/').then(result => { models[1] = result; });
-        ps[2] = this.loadModel('./models/obj/pla/2/').then(result => { models[2] = result; });
-        ps[3] = this.loadModel('./models/obj/pla/3/').then(result => { models[3] = result; });
-        ps[4] = this.loadModel('./models/obj/pla/4/').then(result => { models[4] = result; });
-        ps[5] = this.loadModel('./models/obj/pla/5/').then(result => { models[5] = result; });
-        ps[6] = this.loadModel('./models/obj/pla/6/').then(result => { models[6] = result; });
-        ps[7] = this.loadModel('./models/obj/pla/7/').then(result => { models[7] = result; });
-        ps[8] = this.loadModel('./models/obj/pla/8/').then(result => { models[8] = result; });
-        ps[9] = this.loadModel('./models/obj/pla/9/').then(result => { models[9] = result; });
-        ps[10] = this.loadModel('./models/obj/pla/10/').then(result => { models[10] = result; });
-        ps[11] = this.loadModel('./models/obj/pla/11/').then(result => { models[11] = result; });
+        ps[0] = this.loadModel('./models/glb/0/').then(result => { models[0] = result; });
+        ps[1] = this.loadModel('./models/glb/1/').then(result => { models[1] = result; });
+        ps[2] = this.loadModel('./models/glb/2/').then(result => { models[2] = result; });
+        ps[3] = this.loadModel('./models/glb/3/').then(result => { models[3] = result; });
+        ps[4] = this.loadModel('./models/glb/4/').then(result => { models[4] = result; });
+        ps[5] = this.loadModel('./models/glb/5/').then(result => { models[5] = result; });
+        ps[6] = this.loadModel('./models/glb/6/').then(result => { models[6] = result; });
+        ps[7] = this.loadModel('./models/glb/7/').then(result => { models[7] = result; });
+        ps[8] = this.loadModel('./models/glb/8/').then(result => { models[8] = result; });
+        ps[9] = this.loadModel('./models/glb/9/').then(result => { models[9] = result; });
+        ps[10] = this.loadModel('./models/glb/10/').then(result => { models[10] = result; });
+        ps[11] = this.loadModel('./models/glb/11/').then(result => { models[11] = result; });
 
         //-----------------Renderer
         renderer = new THREE.WebGLRenderer({ alpha: true });
@@ -185,6 +189,13 @@ export class Canvas {
         stats = new Stats();
         stats.showPanel(0);
         document.body.appendChild(stats.dom);
+
+        // postprocessing
+        composer = new EffectComposer(renderer);
+        composer.addPass(new RenderPass(scene, camera));
+        nodepass = new NodePass();
+        composer.addPass(nodepass);
+
         renderer.setAnimationLoop(animate);
     }
 
@@ -301,24 +312,17 @@ export class Canvas {
     }
     loadModel(url) {
         return new Promise(resolve => {
-            var mtlLoader = new MTLLoader(manager);
-            var objLoader = new OBJLoader(manager);
-            var pathString = url;
-            mtlLoader.setPath(pathString);
-            mtlLoader.load('materials.mtl', function(materials) {
-                materials.preload();
-                objLoader.setMaterials(materials);
-                objLoader.setPath(pathString);
-                objLoader.load('obj.obj', resolve);
+            var gltfLoader = new GLTFLoader(manager);
+            gltfLoader.setPath(url);
+            // gltfLoader.load('01.glb', resolve);
+            gltfLoader.load('obj.glb', function(gltf) {
+                resolve(gltf.scene);
             });
         });
     }
 };
 
 function animate() {
-    // requestAnimationFrame(animate);
-    // renderer.setAnimationLoop(function() { renderer.render(scene, cameraContainer); });
-    renderer.render(scene, camera);
     if (PARAMS.viewMode == 1 || PARAMS.viewMode == 2) {
         controls.update(clock.getDelta());
     } else {
@@ -340,15 +344,10 @@ function calPlane() {
         map1.offset.x -= (preCamPos.x - cameraContainer.position.x) * 0.05;
         map1.offset.y += (preCamPos.z - cameraContainer.position.z) * 0.05;
     }
-
 }
-
 
 function render() {
     stats.begin();
-    if (!loaded) {
-
-    }
     water.material.uniforms['time'].value += clock.getDelta() / 60.0;
     if (cameraFolder.expanded) {
         PARAMS.CamRotationX = cameraContainer.rotation.x;
@@ -384,6 +383,7 @@ function render() {
     }
     stats.end();
     renderer.render(scene, camera);
+    // composer.render();
 }
 
 function onWindowResize() {
