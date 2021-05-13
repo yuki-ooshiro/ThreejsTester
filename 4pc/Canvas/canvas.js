@@ -1,5 +1,5 @@
 import * as THREE from 'https://unpkg.com/three@0.126.1/build/three.module.js';
-import { FirstPersonControls } from "https://threejs.org/examples/jsm/controls/FirstPersonControls.js";
+import { FirstPersonControls } from 'https://threejs.org/examples/jsm/controls/FirstPersonControls.js';
 // import { OBJLoader } from 'https://unpkg.com/three@0.126.1/examples/jsm/loaders/OBJLoader.js';
 // import { MTLLoader } from 'https://unpkg.com/three@0.126.1/examples/jsm/loaders/MTLLoader.js';
 import { GLTFLoader } from 'https://unpkg.com/three@0.126.1/examples/jsm/loaders/GLTFLoader.js';
@@ -10,6 +10,7 @@ import Stats from '../jsm/libs/stats.module.js';
 import { EffectComposer } from '../jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from '../jsm/postprocessing/RenderPass.js';
 import { NodePass } from '../jsm/nodes/postprocessing/NodePass.js';
+import * as Nodes from '../jsm/nodes/Nodes.js';
 
 let camera, cameraContainer, scene, renderer, controls, mixer;
 let manager;
@@ -34,12 +35,14 @@ let preCamPos = new THREE.Vector3(-3800, 7, 38700);
 
 let pane;
 let firstCol = "rgb(222,222,222)";
-let cameraFolder;
+let cameraFolder, blurFolder;
 let stats;
-let composer, nodepass;
+let composer, nodepass, blurScreen;
 var viewMode = 3; //1:Human 2:Fly 3:Auto
 
 let firstPosition = new THREE.Vector3(-3800, 0, 38700);
+
+const frame = new Nodes.NodeFrame();
 
 const PARAMS = {
     backgroundColor: { r: 222, g: 222, b: 222 },
@@ -53,6 +56,8 @@ const PARAMS = {
     viewMode: 3,
     waterHeight: 5,
     waterAlpha: 0.8,
+    blurX: 1,
+    blurY: 1,
 };
 
 export class Canvas {
@@ -88,7 +93,7 @@ export class Canvas {
         ps[11] = this.loadModel('./models/glb/11/').then(result => { models[11] = result; });
 
         //-----------------Renderer
-        renderer = new THREE.WebGLRenderer({ alpha: true });
+        renderer = new THREE.WebGLRenderer({ alpha: true, logarithmicDepthBuffer: true });
         renderer.autoClear = true;
         renderer.shadowMap.enabled = true;
         renderer.setPixelRatio(window.devicePixelRatio);
@@ -127,6 +132,9 @@ export class Canvas {
             water.position.y = PARAMS.waterHeight;
             const water_uniforms = water.material.uniforms;
             water_uniforms['alpha'].value = PARAMS.waterAlpha;
+            blurScreen.radius.x = PARAMS.blurX;
+            blurScreen.radius.y = PARAMS.blurY;
+            nodepass.input = blurScreen;
         });
 
         var positionKeyframeTrackJSON = {
@@ -195,6 +203,14 @@ export class Canvas {
         composer.addPass(new RenderPass(scene, camera));
         nodepass = new NodePass();
         composer.addPass(nodepass);
+
+        const size = renderer.getDrawingBufferSize(new THREE.Vector2());
+
+        blurScreen = new Nodes.BlurNode(new Nodes.ScreenNode());
+        blurScreen.size = new THREE.Vector2(size.width, size.height);
+        blurScreen.radius.x = 1;
+        blurScreen.radius.y = 1;
+        nodepass.input = blurScreen;
 
         renderer.setAnimationLoop(animate);
     }
@@ -273,7 +289,6 @@ export class Canvas {
         );
         crowd.position.set(firstPosition.x, 0, firstPosition.z);
         scene.add(crowd);
-
     }
 
     guiSetup(pane) {
@@ -294,6 +309,10 @@ export class Canvas {
         cameraFolder.addMonitor(PARAMS, 'CamPositionX', { title: 'Number', });
         cameraFolder.addMonitor(PARAMS, 'CamPositionY', { title: 'Number', });
         cameraFolder.addMonitor(PARAMS, 'CamPositionZ', { title: 'Number', });
+
+        blurFolder = pane.addFolder({ title: 'BlurSettings', expanded: false, });
+        blurFolder.addInput(PARAMS, 'blurX', { min: 0, max: 15 });
+        blurFolder.addInput(PARAMS, 'blurY', { min: 0, max: 15 });
     }
     fpCtlSetup() {
         //--------------FirstPersonControls---------
@@ -348,6 +367,7 @@ function calPlane() {
 
 function render() {
     stats.begin();
+    frame.update(clock.getDelta()).updateNode(nodepass.material);
     water.material.uniforms['time'].value += clock.getDelta() / 60.0;
     if (cameraFolder.expanded) {
         PARAMS.CamRotationX = cameraContainer.rotation.x;
@@ -382,8 +402,8 @@ function render() {
         }
     }
     stats.end();
-    renderer.render(scene, camera);
-    // composer.render();
+    // renderer.render(scene, camera);
+    composer.render();
 }
 
 function onWindowResize() {
@@ -392,6 +412,7 @@ function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
+    composer.setSize(window.innerWidth, window.innerHeight);
 }
 
 function onDocumentMouseMove(event) {
