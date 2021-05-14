@@ -6,15 +6,14 @@ import { VRButton } from '../jsm/webxr/VRButton.js';
 import Stats from '../jsm/libs/stats.module.js';
 import { EffectComposer } from '../jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from '../jsm/postprocessing/RenderPass.js';
+import { GlitchPass } from '../jsm/postprocessing/GlitchPass.js';
 import { NodePass } from '../jsm/nodes/postprocessing/NodePass.js';
 import * as Nodes from '../jsm/nodes/Nodes.js';
-// import { BufferGeometryUtils } from 'https://threejsfundamentals.org/threejs/resources/threejs/r127/examples/jsm/utils/BufferGeometryUtils.js';
 import { BufferGeometryUtils } from 'https://cdn.jsdelivr.net/npm/three@0.125.2/examples/jsm/utils/BufferGeometryUtils.js';
 
 
 let camera, cameraContainer, scene, renderer, controls, mixer;
 let manager;
-let loaded = false;
 const loading = document.querySelector('.loading');
 let mouseX = 0,
     mouseY = 0,
@@ -27,6 +26,7 @@ var clock = new THREE.Clock();
 let isClick = false;
 let cliclFadeTime = 15;
 let cliclFade = cliclFadeTime;
+var pointCloud;
 
 let modelNum = 12;
 let models = [];
@@ -35,8 +35,10 @@ let pane;
 let firstCol = "rgb(222,222,222)";
 let cameraFolder, blurFolder;
 let stats;
-let composer, nodepass, blurScreen;
+let composer, nodepass, glitchPass, blurScreen;
 var viewMode = 3; //1:Human 2:Fly 3:Auto
+var mergeObj = [];
+var originmergeObjPos = [];
 
 let firstPosition = new THREE.Vector3(-3800, 0, 38700);
 
@@ -44,6 +46,7 @@ const frame = new Nodes.NodeFrame();
 
 const PARAMS = {
     backgroundColor: { r: 222, g: 222, b: 222 },
+    architectureVisible: true,
     CamRotationX: .0,
     CamRotationY: .0,
     CamRotationZ: .0,
@@ -55,6 +58,8 @@ const PARAMS = {
     blurX: 1,
     blurY: 1,
 };
+
+let breakAnimation = false;
 
 export class Canvas {
     constructor() {
@@ -103,9 +108,8 @@ export class Canvas {
         manager.onLoad = function() {
             console.log('Loading complete!');
         };
-
-        const mergeObj = [];
         var merged;
+        var newVector = [];
 
         Promise.all(ps).then(() => {
             for (var j = 0; j < modelNum; j++) {
@@ -116,19 +120,29 @@ export class Canvas {
                         object.material.wireframe = true;
                     }
                 });
-                // mergeObj.push(models[j]);
                 scene.add(models[j]);
-                models[j].visible = false;
-                // console.log(models[j].geometry);
-                mergeObj.push(models[j].geometry);
+                models[j].visible = true;
             }
-            // const merged = BufferGeometryUtils.mergeBufferGeometries(mergeObj);
+            mergeObj = mergeObj.filter(Boolean);
+            merged = BufferGeometryUtils.mergeBufferGeometries(mergeObj);
 
+            pointCloud = new THREE.Points(
+                merged, new THREE.PointsMaterial({
+                    size: 1,
+                    color: 0x000000,
+                    sizeAttenuation: false
+                })
+            );
+            for (let i = 0; i < pointCloud.geometry.attributes.position.array.length; i += 3) {
+                originmergeObjPos[i] = pointCloud.geometry.attributes.position.array[i];
+                originmergeObjPos[i + 1] = pointCloud.geometry.attributes.position.array[i + 1];
+                originmergeObjPos[i + 2] = pointCloud.geometry.attributes.position.array[i + 2];
+
+            }
+
+            scene.add(pointCloud);
             loading.classList.add('hide');
-
-        });
-        scene.traverse(function(obj3d) {
-            console.log(obj3d.geometry);
+            renderer.setAnimationLoop(animate);
         });
 
         pane.on('change', (val) => {
@@ -145,6 +159,38 @@ export class Canvas {
             blurScreen.radius.x = PARAMS.blurX;
             blurScreen.radius.y = PARAMS.blurY;
             nodepass.input = blurScreen;
+            if (PARAMS.architectureVisible) {
+                for (var j = 0; j < modelNum; j++) {
+                    models[j].traverse((object) => {
+                        if (object.isMesh) {
+                            object.material.wireframe = true;
+
+                        }
+                    });
+                    models[j].visible = true;
+                }
+                for (let i = 0; i < pointCloud.geometry.attributes.position.array.length; i += 3) {
+                    pointCloud.geometry.attributes.position.array[i] = originmergeObjPos[i];
+                    pointCloud.geometry.attributes.position.array[i + 1] = originmergeObjPos[i + 1];
+                    pointCloud.geometry.attributes.position.array[i + 2] = originmergeObjPos[i + 2];
+
+                }
+                blurScreen.radius.x = PARAMS.blurX;
+                blurScreen.radius.y = PARAMS.blurY;
+                composer.removePass(glitchPass);
+                breakAnimation = false;
+            } else {
+                for (var j = 0; j < modelNum; j++) {
+                    models[j].traverse((object) => {
+                        if (object.isMesh) {
+                            object.material.wireframe = false;
+                        }
+                    });
+                    models[j].visible = false;
+                }
+                composer.addPass(glitchPass);
+                breakAnimation = true;
+            }
         });
 
         var positionKeyframeTrackJSON = {
@@ -200,10 +246,7 @@ export class Canvas {
 
         action.play();
         renderer.xr.enabled = true;
-        // document.body.appendChild(renderer.domElement);
-        // document.body.appendChild(VRButton.createButton(renderer));
 
-        // animate();
         stats = new Stats();
         stats.showPanel(0);
         document.body.appendChild(stats.dom);
@@ -211,6 +254,8 @@ export class Canvas {
         // postprocessing
         composer = new EffectComposer(renderer);
         composer.addPass(new RenderPass(scene, camera));
+        glitchPass = new GlitchPass();
+        // composer.addPass(glitchPass);
         nodepass = new NodePass();
         composer.addPass(nodepass);
 
@@ -222,7 +267,7 @@ export class Canvas {
         blurScreen.radius.y = 1;
         nodepass.input = blurScreen;
 
-        renderer.setAnimationLoop(animate);
+        // renderer.setAnimationLoop(animate);
     }
 
     cameraSetup() {
@@ -242,7 +287,7 @@ export class Canvas {
     }
 
     guiSetup(pane) {
-        // pane.addInput(PARAMS, 'backgroundColor');
+        pane.addInput(PARAMS, 'architectureVisible');
         const f2 = pane.addFolder({ title: 'ambientSetting', expanded: false, });
         f2.addInput(PARAMS, 'backgroundColor', { input: 'color', });
 
@@ -277,11 +322,15 @@ export class Canvas {
         controls.verticalMin = 1.0;
         controls.verticalMax = 2.0;
     }
+
     loadModel(url) {
         return new Promise(resolve => {
             var gltfLoader = new GLTFLoader(manager);
             gltfLoader.setPath(url);
             gltfLoader.load('obj.glb', function(gltf) {
+                gltf.scene.traverse(function(child) {
+                    mergeObj.push(child.geometry);
+                });
                 resolve(gltf.scene);
             });
         });
@@ -295,12 +344,29 @@ function animate() {
         mixer.update(clock.getDelta());
     }
 
+    if (breakAnimation) {
+        for (let i = 0; i < pointCloud.geometry.attributes.position.array.length; i += 3) {
+            let rn = Math.ceil(Math.random() * 10);
+            if (rn % 3 == 0) {
+                let dx = (Math.random() - 0.5) * 2;
+                let dy = (Math.random() - 0.5) * 2;
+                let dz = (Math.random() - 0.5) * 2;
+
+                pointCloud.geometry.attributes.position.array[i] += dx;
+                pointCloud.geometry.attributes.position.array[i + 1] += dy;
+                pointCloud.geometry.attributes.position.array[i + 2] += dz;
+            }
+        }
+        blurScreen.radius.x = (Math.random() - 0.5) * 10;
+        blurScreen.radius.y = (Math.random() - 0.5) * 10;
+    }
+
     render();
 }
 
 function render() {
     stats.begin();
-    frame.update(clock.getDelta()).updateNode(nodepass.material);
+    frame.update(clock.getDelta()).updateNode(nodepass.material); 
 
     if (cameraFolder.expanded) {
         PARAMS.CamRotationX = cameraContainer.rotation.x;
@@ -331,6 +397,7 @@ function render() {
     }
     stats.end();
     // renderer.render(scene, camera);
+    pointCloud.geometry.attributes.position.needsUpdate = true;
     composer.render();
 }
 
