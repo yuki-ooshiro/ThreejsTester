@@ -10,7 +10,9 @@ import { GlitchPass } from '../jsm/postprocessing/GlitchPass.js';
 import { NodePass } from '../jsm/nodes/postprocessing/NodePass.js';
 import * as Nodes from '../jsm/nodes/Nodes.js';
 import { BufferGeometryUtils } from 'https://cdn.jsdelivr.net/npm/three@0.125.2/examples/jsm/utils/BufferGeometryUtils.js';
-
+import { ShaderMaterial } from 'https://cdn.jsdelivr.net/npm/three@0.125.2/src/materials/ShaderMaterial.js';
+import { vertexSource } from '../Shader/shader.vert.js';
+import { fragmentSource } from '../Shader/shader.frag.js';
 
 let camera, cameraContainer, scene, renderer, controls, mixer;
 let manager;
@@ -126,13 +128,15 @@ export class Canvas {
             mergeObj = mergeObj.filter(Boolean);
             merged = BufferGeometryUtils.mergeBufferGeometries(mergeObj);
 
+            const shaderMaterial = new ShaderMaterial({
+                vertexShader: vertexSource,
+                fragmentShader: fragmentSource,
+            });
+
             pointCloud = new THREE.Points(
-                merged, new THREE.PointsMaterial({
-                    size: 1,
-                    color: 0x000000,
-                    sizeAttenuation: false
-                })
+                merged, shaderMaterial
             );
+
             for (let i = 0; i < pointCloud.geometry.attributes.position.array.length; i += 3) {
                 originmergeObjPos[i] = pointCloud.geometry.attributes.position.array[i];
                 originmergeObjPos[i + 1] = pointCloud.geometry.attributes.position.array[i + 1];

@@ -190,8 +190,8 @@ export class Canvas {
 
         action.play();
         renderer.xr.enabled = true;
-        // document.body.appendChild(renderer.domElement);
-        // document.body.appendChild(VRButton.createButton(renderer));
+        document.body.appendChild(renderer.domElement);
+        document.body.appendChild(VRButton.createButton(renderer));
 
         // animate();
         stats = new Stats();
