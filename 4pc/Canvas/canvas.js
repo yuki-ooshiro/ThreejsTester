@@ -402,7 +402,7 @@ function render() {
         }
     }
     stats.end();
-    // renderer.render(scene, camera);
+    renderer.render(scene, camera);
     composer.render();
 }
 
