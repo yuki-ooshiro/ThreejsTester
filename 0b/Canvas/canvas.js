@@ -13,6 +13,7 @@ import { BufferGeometryUtils } from 'https://cdn.jsdelivr.net/npm/three@0.125.2/
 import { ShaderMaterial } from 'https://cdn.jsdelivr.net/npm/three@0.125.2/src/materials/ShaderMaterial.js';
 import { vertexSource } from '../Shader/shader.vert.js';
 import { fragmentSource } from '../Shader/shader.frag.js';
+import { GPUComputationRenderer } from '../jsm/misc/GPUComputationRenderer.js';
 
 let camera, cameraContainer, scene, renderer, controls, mixer;
 let manager;
@@ -62,6 +63,14 @@ const PARAMS = {
 };
 
 let breakAnimation = false;
+// gpgpuをするために必要なオブジェクト達
+var gpuCompute;
+var velocityVariable;
+var positionVariable;
+var positionUniforms;
+var velocityUniforms;
+var particleUniforms;
+var effectController;
 
 export class Canvas {
     constructor() {
@@ -128,14 +137,36 @@ export class Canvas {
             mergeObj = mergeObj.filter(Boolean);
             merged = BufferGeometryUtils.mergeBufferGeometries(mergeObj);
 
+            let geoLength = merged.attributes.position.array.length;
+            const colors_base = [];
+            for (var i = 0; i < geoLength; i++) {
+                colors_base.push(1, 0, 0);
+            }
+            const colors = new Float32Array(colors_base);
+            merged.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+            gpuCompute = new GPUComputationRenderer(window.innerWidth, window.innerWidth, renderer);
+            var dtPosition = gpuCompute.createTexture();
+            var dtVelocity = gpuCompute.createTexture();
+            // this.fillTextures(dtPosition, dtVelocity);
+
+
+            let particleUniforms = {
+                texturePosition: { value: null },
+                textureVelocity: { value: null },
+                cameraConstant: { value: getCameraConstant(camera) }
+            };
+
             const shaderMaterial = new ShaderMaterial({
+                uniforms: particleUniforms,
                 vertexShader: vertexSource,
                 fragmentShader: fragmentSource,
+                depthTest: true, //距離減衰
+                transparent: true
             });
 
-            pointCloud = new THREE.Points(
-                merged, shaderMaterial
-            );
+
+            pointCloud = new THREE.Points(merged, shaderMaterial);
 
             for (let i = 0; i < pointCloud.geometry.attributes.position.array.length; i += 3) {
                 originmergeObjPos[i] = pointCloud.geometry.attributes.position.array[i];
@@ -341,6 +372,10 @@ export class Canvas {
     }
 };
 
+function getCameraConstant(camera) {
+    return window.innerHeight / (Math.tan(THREE.Math.DEG2RAD * 0.5 * camera.fov) / camera.zoom);
+}
+
 function animate() {
     if (PARAMS.viewMode == 1 || PARAMS.viewMode == 2) {
         controls.update(clock.getDelta());
@@ -349,18 +384,18 @@ function animate() {
     }
 
     if (breakAnimation) {
-        for (let i = 0; i < pointCloud.geometry.attributes.position.array.length; i += 3) {
-            let rn = Math.ceil(Math.random() * 10);
-            if (rn % 3 == 0) {
-                let dx = (Math.random() - 0.5) * 2;
-                let dy = (Math.random() - 0.5) * 2;
-                let dz = (Math.random() - 0.5) * 2;
+        // for (let i = 0; i < pointCloud.geometry.attributes.position.array.length; i += 3) {
+        //     let rn = Math.ceil(Math.random() * 10);
+        //     if (rn % 3 == 0) {
+        //         let dx = (Math.random() - 0.5) * 2;
+        //         let dy = (Math.random() - 0.5) * 2;
+        //         let dz = (Math.random() - 0.5) * 2;
 
-                pointCloud.geometry.attributes.position.array[i] += dx;
-                pointCloud.geometry.attributes.position.array[i + 1] += dy;
-                pointCloud.geometry.attributes.position.array[i + 2] += dz;
-            }
-        }
+        //         pointCloud.geometry.attributes.position.array[i] += dx;
+        //         pointCloud.geometry.attributes.position.array[i + 1] += dy;
+        //         pointCloud.geometry.attributes.position.array[i + 2] += dz;
+        //     }
+        // }
         blurScreen.radius.x = (Math.random() - 0.5) * 10;
         blurScreen.radius.y = (Math.random() - 0.5) * 10;
     }
@@ -370,7 +405,7 @@ function animate() {
 
 function render() {
     stats.begin();
-    frame.update(clock.getDelta()).updateNode(nodepass.material); 
+    frame.update(clock.getDelta()).updateNode(nodepass.material);
 
     if (cameraFolder.expanded) {
         PARAMS.CamRotationX = cameraContainer.rotation.x;

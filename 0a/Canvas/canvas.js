@@ -127,6 +127,14 @@ export class Canvas {
             }
             mergeObj = mergeObj.filter(Boolean);
             merged = BufferGeometryUtils.mergeBufferGeometries(mergeObj);
+            let geoLength = merged.attributes.position.array.length;
+            const colors_base = [];
+            for (var i = 0; i < geoLength; i++) {
+                colors_base.push(0, 0, 0);
+            }
+
+            const colors = new Float32Array(colors_base);
+            merged.addAttribute('color', new THREE.BufferAttribute(colors, 3));
 
             // const shaderMaterial = new ShaderMaterial({
             //     vertexShader: vertexSource,
@@ -143,7 +151,7 @@ export class Canvas {
                 })
             );
 
-            for (let i = 0; i < pointCloud.geometry.attributes.position.array.length; i += 3) {
+            for (let i = 0; i < geoLength; i += 3) {
                 originmergeObjPos[i] = pointCloud.geometry.attributes.position.array[i];
                 originmergeObjPos[i + 1] = pointCloud.geometry.attributes.position.array[i + 1];
                 originmergeObjPos[i + 2] = pointCloud.geometry.attributes.position.array[i + 2];
