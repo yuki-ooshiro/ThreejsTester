@@ -394,16 +394,20 @@ function render() {
     }
     if (viewMode == 1) {
         cameraContainer.position.y = 8;
+        composer.render();
     } else if (viewMode == 2) {
         if (cameraContainer.position.y < 0.5) { //最低値
             cameraContainer.position.y = 0.5;
         } else if (cameraContainer.position.y > 60) { //最高値
             cameraContainer.position.y = 60;
         }
+        composer.render();
+    } else {
+        renderer.render(scene, camera);
     }
     stats.end();
-    renderer.render(scene, camera);
-    composer.render();
+    // renderer.render(scene, camera);
+    // composer.render();
 }
 
 function onWindowResize() {
