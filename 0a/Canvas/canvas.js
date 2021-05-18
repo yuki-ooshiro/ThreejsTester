@@ -128,13 +128,19 @@ export class Canvas {
             mergeObj = mergeObj.filter(Boolean);
             merged = BufferGeometryUtils.mergeBufferGeometries(mergeObj);
 
-            const shaderMaterial = new ShaderMaterial({
-                vertexShader: vertexSource,
-                fragmentShader: fragmentSource,
-            });
-
+            // const shaderMaterial = new ShaderMaterial({
+            //     vertexShader: vertexSource,
+            //     fragmentShader: fragmentSource,
+            // });
+            // pointCloud = new THREE.Points(
+            //     merged, shaderMaterial
+            // );
             pointCloud = new THREE.Points(
-                merged, shaderMaterial
+                merged, new THREE.PointsMaterial({
+                    size: 1,
+                    color: 0x000000,
+                    sizeAttenuation: false
+                })
             );
 
             for (let i = 0; i < pointCloud.geometry.attributes.position.array.length; i += 3) {
