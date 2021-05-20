@@ -12,6 +12,8 @@ export const vertexSource = `
 	void main() {
                 gl_PointSize = 2.0;
                 gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+
+
                 //-----------------
 
                 // vec4 posTemp = texture2D( texturePosition, uv );
@@ -27,6 +29,8 @@ export const vertexSource = `
 
                 // // 変換して格納
                 // gl_Position = projectionMatrix * mvPosition;
+
+                
 
 	}
 

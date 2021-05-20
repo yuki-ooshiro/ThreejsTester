@@ -13,9 +13,12 @@ import { BufferGeometryUtils } from 'https://cdn.jsdelivr.net/npm/three@0.125.2/
 import { ShaderMaterial } from 'https://cdn.jsdelivr.net/npm/three@0.125.2/src/materials/ShaderMaterial.js';
 import { vertexSource } from '../Shader/shader.vert.js';
 import { fragmentSource } from '../Shader/shader.frag.js';
+import { computeShaderPosition } from '../Shader/shader.computePosition.js';
+import { computeShaderVelocity } from '../Shader/shader.computeVelocity.js';
 import { GPUComputationRenderer } from '../jsm/misc/GPUComputationRenderer.js';
+// import Particle from '../js/Particles/Particles.js';
 
-let camera, cameraContainer, scene, renderer, controls, mixer;
+let camera, cameraContainer, scene, renderer, controls, mixer, geometry;
 let manager;
 const loading = document.querySelector('.loading');
 let mouseX = 0,
@@ -119,6 +122,8 @@ export class Canvas {
         manager.onLoad = function() {
             console.log('Loading complete!');
         };
+
+
         var merged;
         var newVector = [];
 
@@ -138,6 +143,7 @@ export class Canvas {
             merged = BufferGeometryUtils.mergeBufferGeometries(mergeObj);
 
             let geoLength = merged.attributes.position.array.length;
+
             const colors_base = [];
             for (var i = 0; i < geoLength; i++) {
                 colors_base.push(1, 0, 0);
@@ -176,8 +182,10 @@ export class Canvas {
             }
 
             scene.add(pointCloud);
+
             loading.classList.add('hide');
             renderer.setAnimationLoop(animate);
+
         });
 
         pane.on('change', (val) => {
@@ -436,7 +444,7 @@ function render() {
     }
     stats.end();
     // renderer.render(scene, camera);
-    pointCloud.geometry.attributes.position.needsUpdate = true;
+    // pointCloud.geometry.attributes.position.needsUpdate = true;
     composer.render();
 }
 
