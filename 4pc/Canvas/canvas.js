@@ -368,7 +368,8 @@ function calPlane() {
 function render() {
     stats.begin();
     frame.update(clock.getDelta()).updateNode(nodepass.material);
-    water.material.uniforms['time'].value += clock.getDelta() / 60.0;
+    water.material.uniforms['time'].value += 1.0 / 60.0;
+
     if (cameraFolder.expanded) {
         PARAMS.CamRotationX = cameraContainer.rotation.x;
         PARAMS.CamRotationY = cameraContainer.rotation.y;
